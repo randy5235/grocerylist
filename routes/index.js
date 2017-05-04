@@ -1,9 +1,9 @@
 const express = require('express');
 
 const router = express.Router();
-router.route('login')
+router.route('/login')
   .get((req, res) => {
-    res.send('Welcome to login');
+    res.json('Welcome to login');
   });
 
 
