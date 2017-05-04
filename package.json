@@ -8,6 +8,10 @@
   },
   "author": "James Nicholas & Randy Wressell",
   "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/randy5235/grocerylist.git"
+  },
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
