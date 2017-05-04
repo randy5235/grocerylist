@@ -1,0 +1,16 @@
+{
+  "name": "grocerylist",
+  "version": "0.0.1",
+  "description": "A basic grocery list api with authentication",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "James Nicholas & Randy Wressell",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "pg": "^6.1.5"
+  }
+}
