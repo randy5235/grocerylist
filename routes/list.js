@@ -20,6 +20,4 @@ router.route('/list/:list/item/:item').get((req, res) => {
   res.json({ message: 'returns a specific item from a specific list' });
 });
 
-
-
 module.exports = router;
