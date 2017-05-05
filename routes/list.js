@@ -12,4 +12,14 @@ router.route('/list/:list').get((req, res) => {
   res.json({ message: returnString });
 });
 
+router.route('/list/:list/items').get((req, res) => {
+  res.json({ message: 'returns all list items for a single list' });
+});
+
+router.route('/list/:list/item/:item').get((req, res) => {
+  res.json({ message: 'returns a specific item from a specific list' });
+});
+
+
+
 module.exports = router;
