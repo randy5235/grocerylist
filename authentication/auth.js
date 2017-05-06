@@ -6,6 +6,5 @@ function isAuthorized() {
     next();
   });
 }
-//test
 
 module.exports = isAuthorized;
