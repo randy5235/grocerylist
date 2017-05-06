@@ -4,17 +4,17 @@ const user = require('./user');
 
 const router = express.Router();
 
-function isAuthorized(req, res, next) {
-  console.log(req.headers);
-  if (req.headers.authorized === 'true') {
+function isAuthorized() {
+  return ((req, res, next) => {
+    if (req.headers.authorized !== 'true') {
+      return res.json({ message: 'NOT AUTHORIZED' });
+    }
     next();
-  } else {
-    return res.json({ message: 'NOT AUTHORIZED' });
-  }
+  });
 }
 
 router.use('/', user);
-router.use(isAuthorized);
+router.use(isAuthorized());
 router.use('/', list);
 
 module.exports = router;
