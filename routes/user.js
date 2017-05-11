@@ -35,10 +35,14 @@ pool.on('error', function (err, client) {
 const router = express.Router();
 router
   .route('/login')
-  .post((req, res) => res.json({ message: 'Thank you for logging in!' }));
+  .post((req, res) => res.json({ message: 'OK' }));
 
 router.route('/logout').post((req, res) => {
-  res.json({ message: 'Thank you, come again!' });
+  res.json({ message: 'OK' });
+});
+
+router.route('/register').post((req, res) => {
+  res.json({ message: 'New User' });
 });
 
 module.exports = router;

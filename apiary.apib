@@ -12,7 +12,7 @@ This is the base URI for all requests. All responses will return a JSON payload.
 
 Resources related to user creation and authentication
 
-## Register [/register]
+## Register [/api/register]
 
 ### Create a new user [POST]
 
@@ -24,10 +24,11 @@ Create a new user in the system.
 
             { "username" : "MyUsername", "password" : "MyPassword"}
 
-+ Response 200 (application/json)
++ Response 200 (application/json; charset=utf-8)
 
+        { "message": "New User" }
             
-## Login [/login]
+## Login [/api/login]
 
 ### Login with an existing user [POST]
 
@@ -39,22 +40,18 @@ Authenticates an existing user and creates a valid session token.
 
             { "username" : "MyUsername", "password" : "MyPassword"}
 
-+ Response 200 (application/json)
++ Response 200 (application/json; charset=utf-8)
 
-    + Header
-    
-    + Body
-    
-            OK
+        { "message": "OK" }
             
-## Logout [/logout]
+## Logout [/api/logout]
 
 ### Logout an existing user [POST]
 
 Logs an existing user out and invalidates their session credentials.
 
-+ Request (application/json)
++ Request (application/json; charset=utf-8)
 
-+ Response 200 (application/json)
++ Response 200 (application/json; charset=utf-8)
         
-        OK
+        { "message": "OK" }
