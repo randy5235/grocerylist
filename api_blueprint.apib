@@ -1,0 +1,38 @@
+FORMAT: 1A
+
+# GroceryList 
+
+The GroceryList API is a simple CRUD API to allow individuals to create and share lists with other users.
+
+# GroceryList API Root [/api]
+This is the base URI for all requests. All responses will return a JSON payload.
+
+
+## Group users
+
+Resources related to user creation and authentication
+
+## Register [/register]
+
+### Create a new user [POST]
+
+Create a new user in the system.
+
++ Request (application/json)
+
+    + Body
+
+            { 
+            
+            "username" : "MyUsername",
+
+            "password" : "Mypassword" 
+            
+            }
+
++ Response 200 (application/json)
+
+
+## Login [/login]
+
+
