@@ -38,17 +38,30 @@ const query = 'SELECT * FROM users where username = $1';
 //   console.error('idle client error', err.message, err.stack);
 // });
 
-const myPool = (req, res, next) => {
-  pool.query(query, [req.body.username], (err, result) => {
-    // console.log(res.rows.length);
-    // console.log(err);
-    if (result.rows.length > 0) {
-      req.result = result.rows[0].username;
-      next();
-    } else {
-      res.status(401).send('ERROR');
-    }
-  });
-};
+const myPool = (async (req, res, next) => {
+  try {
+    const result = await pool.query(query, [req.body.username]);
+    req.result = result.rows[0].username;
+    next();
+  } catch (err) {
+    res.status(401).send('UNAUTHORIZED');
+  }
+});
+  // pool.query(query, [req.body.username], (err, result) => {
+  //   if (err) {
+  //     res.status(500).json({ message: 'Server error' });
+  //   }
+  //   if (result.rows.length > 0) {
+  //     req.result = result.rows[0].username;
+  //     next();
+  //   } else {
+  //     res
+  //       .status(401)
+  //       .json({
+  //         message: 'Authentication error, please check your credentials and try again.',
+  //       });
+  //   }
+  // });
+// });
 
 module.exports = myPool;
