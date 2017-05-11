@@ -38,7 +38,7 @@ const query = 'SELECT * FROM users where username = $1';
 //   console.error('idle client error', err.message, err.stack);
 // });
 
-function myPool(req, res, next) {
+const myPool = (req, res, next) => {
   pool.query(query, [req.body.username], (err, result) => {
     // console.log(res.rows.length);
     // console.log(err);
@@ -46,13 +46,9 @@ function myPool(req, res, next) {
       req.result = result.rows[0].username;
       next();
     } else {
-      console.log(err);
-      // res.status(401).json({ username: 'not found' });
+      res.status(401).send('ERROR');
     }
   });
-  // req.result = result;
-  // next();
-}
-
+};
 
 module.exports = myPool;
