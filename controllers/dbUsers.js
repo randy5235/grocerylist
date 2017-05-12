@@ -64,5 +64,17 @@ const myPool = (async (req, res, next) => {
   //   }
   // });
 // });
+// const myPool = (req, res, next) => {
+//  pool.query(query, [req.body.username], (err, result) => {
+    // console.log(res.rows.length);
+    // console.log(err);
+//    if (result.rows.length > 0) {
+ //     req.result = result.rows[0].username;
+ //     next();
+ //   } else {
+ //     res.status(401).send('ERROR');
+ //   }
+ // });
+//};
 
 module.exports = myPool;
