@@ -44,6 +44,7 @@ const myPool = (async (req, res, next) => {
     req.result = result.rows[0].username;
     next();
   } catch (err) {
+    console.log(err);
     res.status(401).send('UNAUTHORIZED');
   }
 });
