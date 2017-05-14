@@ -65,7 +65,23 @@ Resources related to list creation and updates
 
 ### Send back a collection of all lists that a user has access to [GET]
 
-Create a new user in the system.
+Get a collection of lists for the current user.
+
++ Request (application/json)
+
+    + Headers
+
+            authorized: true
+
++ Response 200 (application/json; charset=utf-8)
+
+        { "message": "New User" }
+
+## Lists [/api/list/:list]
+
+### Send back a specific lists that a user has access to [GET]
+
+Retrieve a specific list.
 
 + Request (application/json)
 
