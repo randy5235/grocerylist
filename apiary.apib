@@ -55,3 +55,24 @@ Logs an existing user out and invalidates their session credentials.
 + Response 200 (application/json; charset=utf-8)
         
         { "message": "OK" }
+
+
+## Group lists
+
+Resources related to list creation and updates
+
+## Lists [/api/lists]
+
+### Send back a collection of all lists that a user has access to [GET]
+
+Create a new user in the system.
+
++ Request (application/json)
+
+    + Headers
+
+            authorized: true
+
++ Response 200 (application/json; charset=utf-8)
+
+        { "message": "New User" }
