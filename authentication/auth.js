@@ -1,10 +1,9 @@
 function isAuthorized() {
   return (req, res, next) => {
-    if (req.headers.authorized == 'true') {
+    if (req.isAuthenticate) {
       next();
-    } else {
-      return res.json({ message: 'NOT AUTHORIZED' });
     }
+    return res.json({ message: 'NOT AUTHORIZED' });
   };
 }
 

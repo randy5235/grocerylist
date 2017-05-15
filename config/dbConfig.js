@@ -10,4 +10,8 @@ const dbConfig = {
   idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
 };
 
-module.exports = dbConfig;
+const sessionSecret = {
+  secret: config.sessionSecret,
+};
+
+module.exports = { dbConfig, sessionSecret };
