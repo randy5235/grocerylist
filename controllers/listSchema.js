@@ -28,7 +28,7 @@ const Item = sequelize.define('items', {
 // force: true will drop the table if it already exists
 const createList = (req, res, next) => {
   // console.log(req.body);
-  List.sync({force: true }).then(() =>
+  List.sync({ force: true }).then(() =>
     // Table created
     List.create({
       username: req.body.username,
