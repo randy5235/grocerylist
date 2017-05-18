@@ -4,26 +4,39 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(dbConfig.url);
 
 const User = sequelize.define('user', {
-  id: {
-    autoIncrement: true,
-    primaryKey: true,
-    type: Sequelize.INTEGER,
-    field: 'id',
-  },
   username: {
     type: Sequelize.STRING,
-    field: 'username',
   },
   password: {
     type: Sequelize.STRING,
-    field: 'password',
   },
 });
 
 // force: true will drop the table if it already exists
-User.sync({ force: false }).then(() =>
-  // Table created
-   User.create({
-     username: 'Randy',
-     password: 'test',
-   }));
+const userRegister = (req, res, next) => {
+  // console.log(req.body);
+  User.sync({force: true }).then(() =>
+    // Table created
+    User.create({
+      username: req.body.username,
+      password: req.body.password,
+    }).then((user) => {
+      req.user = user;
+      next();
+    })
+  );
+};
+
+const getUser = (req, res, next) => {
+  // console.log(req.body);
+  User.sync({force: false }).then(() =>
+    // Table created
+    User.findOne({
+      username: req.body.username,
+    }).then((user) => {
+      req.user = user;
+      next();
+    })
+  );
+};
+module.exports = { userRegister, getUser };

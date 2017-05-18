@@ -1,14 +1,16 @@
-const myPool = require('../controllers/dbUsers');
+//const myPool = require('../controllers/dbUsers');
 const express = require('express');
+const registerUser = require('../controllers/seqUser').userRegister;
+const getUser = require('../controllers/seqUser').getUser;
 
 const router = express.Router();
 
-router.route('/register').post((req, res) => {
-  res.json({ message: 'OK' });
+router.route('/register').post(registerUser, (req, res) => {
+  res.json({ userId: req.user.id, username: req.user.username });
 });
 router
   .route('/login')
-  .post(myPool, (req, res) => res.json({ username: req.result }));
+  .post(getUser, (req, res) => res.json({ username: req.user.username }));
 
 router.route('/logout').post((req, res) => {
   res.json({ message: 'OK' });
