@@ -6,7 +6,7 @@ const user = require('./user');
 const router = express.Router();
 
 router.use('/', user);
-router.use(isAuthorized());
+//router.use(isAuthorized());
 router.use('/', list);
 
 module.exports = router;

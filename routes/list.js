@@ -1,12 +1,16 @@
+const createList = require('../controllers/listSchema').createList;
 const isAuthenticated = require('../authentication/auth');
 const express = require('express');
 
 const router = express.Router();
-router.use(isAuthenticated());
+//router.use(isAuthenticated());
 router
   .route('/lists')
   .get((req, res) => {
     res.json({ message: 'Get All Lists' });
+  })
+  .post(createList, (req, res) => {
+    res.json({ listId: req.list.id, title: req.list.title });
   });
 
 router.route('/list/:list').get((req, res) => {
