@@ -44,6 +44,7 @@ async function getList(req, res, next) {
   next();
 }
 
+// adding for integration test
 async function deleteList(req, res, next) {
   const list = await List.destroy({
     where: { id: req.params.list }
