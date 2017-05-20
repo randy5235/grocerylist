@@ -45,10 +45,10 @@ async function getList(req, res, next) {
 }
 
 async function deleteList(req, res, next) {
-  const list = await List.destroy({ where:
-    { id: req.params.list }
+  const list = await List.destroy({
+    where: { id: req.params.list }
   });
-  req.list = list;
+  req.list = list ? { message: 'Record successfully deleted' } : { error: 'Cannot delete record' };
   next();
 }
 
