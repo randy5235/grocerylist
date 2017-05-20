@@ -38,4 +38,18 @@ async function createList(req, res, next) {
   next();
 }
 
-module.exports = { createList };
+async function getList(req, res, next) {
+  const list = await List.findById(req.params.list);
+  req.list = list;
+  next();
+}
+
+async function deleteList(req, res, next) {
+  const list = await List.destroy({ where:
+    { id: req.params.list }
+  });
+  req.list = list;
+  next();
+}
+
+module.exports = { createList, getList, deleteList };
