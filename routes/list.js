@@ -2,6 +2,8 @@ const createList = require('../controllers/listSchema').createList;
 const getList = require('../controllers/listSchema').getList;
 const deleteList = require('../controllers/listSchema').deleteList;
 const createItem = require('../controllers/listSchema').createItem;
+const deleteItem = require('../controllers/listSchema').deleteItem;
+const getItem = require('../controllers/listSchema').getItem;
 const isAuthenticated = require('../authentication/auth');
 const express = require('express');
 
@@ -41,11 +43,15 @@ router
   .route('/list/:list/item')
   .post(createItem, (req, res) => {
     res.json(req.item);
+  })
+  .delete(deleteItem, (req, res) => {
+    res.json(req.item);
   });
 
 // GET a specific item from a specific list
-router.route('/list/:list/item/:item').get((req, res) => {
-  res.json({ message: 'returns a specific item from a specific list' });
-});
+router.route('/list/:list/item/:item')
+  .get(getItem, (req, res) => {
+    res.json(req.item);
+  });
 
 module.exports = router;

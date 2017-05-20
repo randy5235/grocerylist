@@ -66,4 +66,19 @@ async function createItem(req, res, next) {
   next();
 }
 
-module.exports = { createList, getList, deleteList, createItem };
+async function getItem(req, res, next) {
+  const item = await List.findById(req.params.item);
+  req.item = item;
+  next();
+}
+
+// adding for integration test
+async function deleteItem(req, res, next) {
+  const item = await Item.destroy({
+    where: { id: req.params.item }
+  });
+  req.item = item ? { message: 'Record successfully deleted' } : { error: 'Cannot delete record' };
+  next();
+}
+
+module.exports = { createList, getList, deleteList, createItem, getItem, deleteItem };
