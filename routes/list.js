@@ -22,17 +22,12 @@ router
     res.json({ listId: req.list.id, title: req.list.title });
   });
 
-// GET a specific list for a user
+// GET  or DELETE a specific list for a user
 router.route('/list/:list')
   .get(getList, (req, res) => {
-  //  const returnString = `Getting Specific List ${req.params.list}`;
     res.json(req.list);
-  });
-
-// DELETE a specific list for a user
-router.route('/list/:list')
+  })
   .delete(deleteList, (req, res) => {
-  //  const returnString = `Getting Specific List ${req.params.list}`;
     res.json(req.list);
   });
 
@@ -45,7 +40,7 @@ router.route('/list/:list/items').get((req, res) => {
 router
   .route('/list/:list/item')
   .post(createItem, (req, res) => {
-    res.json({ message: 'creates a single item associated with a list' });
+    res.json(req.item);
   });
 
 // GET a specific item from a specific list
