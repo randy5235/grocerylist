@@ -26,6 +26,7 @@ const Item = sequelize.define('items', {
 
 Item.belongsTo(List);
 List.sync();
+Item.sync();
 
 // force: true will drop the table if it already exists
 async function createList(req, res, next) {
@@ -53,4 +54,16 @@ async function deleteList(req, res, next) {
   next();
 }
 
-module.exports = { createList, getList, deleteList };
+async function createItem(req, res, next) {
+  // console.log(req.body);
+  const item = await Item.create({
+    title: req.body.title,
+    description: req.body.description,
+    isDone: false,
+    listId: req.params.list
+  });
+  req.item = item;
+  next();
+}
+
+module.exports = { createList, getList, deleteList, createItem };

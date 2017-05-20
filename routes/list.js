@@ -1,6 +1,7 @@
 const createList = require('../controllers/listSchema').createList;
 const getList = require('../controllers/listSchema').getList;
 const deleteList = require('../controllers/listSchema').deleteList;
+const createItem = require('../controllers/listSchema').createItem;
 const isAuthenticated = require('../authentication/auth');
 const express = require('express');
 
@@ -43,7 +44,7 @@ router.route('/list/:list/items').get((req, res) => {
 // POST a new item to a specific list
 router
   .route('/list/:list/item')
-  .post((req, res) => {
+  .post(createItem, (req, res) => {
     res.json({ message: 'creates a single item associated with a list' });
   });
 
