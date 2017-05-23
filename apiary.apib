@@ -92,3 +92,39 @@ Retrieve a specific list.
 + Response 200 (application/json; charset=utf-8)
 
         { "message": "New User" }
+        
+## Group items
+
+Resources related to item creation and updates and deletion
+
+## items [/api/list/:list/items]
+
+### Send back a collection of all items that a user has access to on a given list [GET]
+
+Get a collection of items for the current list.
+
++ Request (application/json)
+
+    + Headers
+
+            authorized: true
+
++ Response 200 (application/json; charset=utf-8)
+
+        { "message": "New User" }
+
+## list/:list/item/:item [/api/list/:list/item/:item]
+
+### Send back a specific item that a user has access to [GET]
+
+Retrieve a specific item.
+
++ Request (application/json)
+
+    + Headers
+
+            authorized: true
+
++ Response 200 (application/json; charset=utf-8)
+
+        { "message": "New User" }
