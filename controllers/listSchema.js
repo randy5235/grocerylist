@@ -25,8 +25,8 @@ const Item = sequelize.define('items', {
 });
 
 Item.belongsTo(List);
-List.sync();
-Item.sync();
+List.sync({force: false});
+Item.sync({force: false});
 
 // force: true will drop the table if it already exists
 async function createList(req, res, next) {

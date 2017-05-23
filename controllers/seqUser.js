@@ -13,7 +13,7 @@ const User = sequelize.define('user', {
   }
 });
 
-sequelize.sync();
+sequelize.sync({force: false});
 
 function generateHash(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
