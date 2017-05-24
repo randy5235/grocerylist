@@ -35,6 +35,4 @@ async function getUser(req, res, next) {
   next();
 }
 
-// const test = 'test';
-// console.log(generateHash(test));
 module.exports = { userRegister, getUser };
