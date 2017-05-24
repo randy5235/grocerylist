@@ -1,6 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const getUser = require('../controllers/seqUser').getUser;
+const getUser = require('../controllers/userSchema').getUser;
 
 
 passport.use(new LocalStrategy(

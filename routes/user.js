@@ -1,6 +1,6 @@
 const express = require('express');
-const registerUser = require('../controllers/seqUser').userRegister;
-const getUser = require('../controllers/seqUser').getUser;
+const registerUser = require('../controllers/userSchema').userRegister;
+const getUser = require('../controllers/userSchema').getUser;
 
 const router = express.Router();
 
