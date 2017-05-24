@@ -4,7 +4,7 @@ const deleteList = require('../controllers/listSchema').deleteList;
 const createItem = require('../controllers/listSchema').createItem;
 const deleteItem = require('../controllers/listSchema').deleteItem;
 const getItem = require('../controllers/listSchema').getItem;
-const isAuthenticated = require('../authentication/auth');
+// const isAuthenticated = require('../authentication/auth');
 const express = require('express');
 
 const router = express.Router();

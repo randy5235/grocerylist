@@ -26,8 +26,7 @@ const userRegister = async (req, res, next) => {
     });
     req.user = user;
     next();
-  }
-  catch (err) {
+  } catch (err) {
     res.json(err);
   }
 };
