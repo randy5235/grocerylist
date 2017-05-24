@@ -16,7 +16,7 @@ const User = sequelize.define('user', {
 // force: true will drop the table if it already exists
 sequelize.sync({ force: false });
 
-async function userRegister(req, res, next) {
+const userRegister = async (req, res, next) => {
   // let sync = await User.sync({ force: true });
   const password = await bcrypt.hash(req.body.password, await bcrypt.genSalt(8));
   const user = await User.create({
@@ -25,14 +25,14 @@ async function userRegister(req, res, next) {
   });
   req.user = user;
   next();
-}
+};
 
-async function getUser(req, res, next) {
+const getUser = async (req, res, next) => {
   const user = await User.findOne({
     username: req.body.username
   });
   req.user = user;
   next();
-}
+};
 
 module.exports = { userRegister, getUser };
