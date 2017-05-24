@@ -5,11 +5,6 @@ const passport = require('passport');
 const router = require('./routes');
 const session = require('express-session');
 
-const sess = {
-  secret: 'meow meow',
-  cookie: {}
-};
-
 const app = express();
 const port = process.env.PORT || 3000;
 console.log(config);

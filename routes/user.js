@@ -1,4 +1,3 @@
-//const myPool = require('../controllers/dbUsers');
 const express = require('express');
 const registerUser = require('../controllers/seqUser').userRegister;
 const getUser = require('../controllers/seqUser').getUser;
