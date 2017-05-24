@@ -6,7 +6,8 @@ const sequelize = new Sequelize(dbConfig.url);
 
 const User = sequelize.define('user', {
   username: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    unique: true
   },
   password: {
     type: Sequelize.STRING
@@ -17,22 +18,31 @@ const User = sequelize.define('user', {
 sequelize.sync({ force: false });
 
 const userRegister = async (req, res, next) => {
-  // let sync = await User.sync({ force: true });
   const password = await bcrypt.hash(req.body.password, await bcrypt.genSalt(8));
-  const user = await User.create({
-    username: req.body.username,
-    password
-  });
-  req.user = user;
-  next();
+  try {
+    const user = await User.create({
+      username: req.body.username,
+      password
+    });
+    req.user = user;
+    next();
+  }
+  catch (err) {
+    res.json(err);
+  }
 };
 
 const getUser = async (req, res, next) => {
   const user = await User.findOne({
     username: req.body.username
   });
-  req.user = user;
-  next();
+  const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+  if (isPasswordValid) {
+    req.user = user;
+    next();
+  } else {
+    res.json({ error: 'Username or Password is incorrect' });
+  }
 };
 
 module.exports = { userRegister, getUser };
