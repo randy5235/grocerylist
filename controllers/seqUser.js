@@ -1,5 +1,5 @@
 const dbConfig = require('../config/dbConfig').dbConfig;
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcrypt');
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize(dbConfig.url);
@@ -13,25 +13,15 @@ const User = sequelize.define('user', {
   }
 });
 
-sequelize.sync({force: false});
-
-function generateHash(password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
-}
-
-// checking if password is valid
-// async function comparePassword(password) {
-//     await bcrypt.compare(password, getUser);
-// };
-
 // force: true will drop the table if it already exists
+sequelize.sync({ force: false });
+
 async function userRegister(req, res, next) {
   // let sync = await User.sync({ force: true });
-  let password = generateHash(req.body.password);
-  console.log(password);
+  const password = await bcrypt.hash(req.body.password, await bcrypt.genSalt(8));
   const user = await User.create({
     username: req.body.username,
-    password: generateHash(req.body.password)
+    password
   });
   req.user = user;
   next();
