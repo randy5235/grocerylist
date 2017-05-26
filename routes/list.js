@@ -6,15 +6,23 @@ const deleteItem = require('../controllers/listSchema').deleteItem;
 const getItem = require('../controllers/listSchema').getItem;
 // const isAuthenticated = require('../authentication/auth');
 const express = require('express');
+const passport = require('passport');
 
 const router = express.Router();
-// router.use(isAuthenticated());
-
+// router.use(isAuthorized);
+function loggedIn(req, res, next) {
+    console.log(req.user);
+    if (req.user) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+}
 // GET all lists for a user
 router
   .route('/lists')
-  .get((req, res) => {
-    res.json({ message: 'Get All Lists' });
+  .get(loggedIn, (req, res) => {
+    res.json({ message: req.user.username });
   });
 
 // POST a new list for a user

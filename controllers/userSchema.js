@@ -27,7 +27,7 @@ const userRegister = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    res.json({message: err.message });
+    res.json({ message: err.message });
   }
 };
 
@@ -44,4 +44,25 @@ const getUser = async (req, res, next) => {
   }
 };
 
-module.exports = { userRegister, getUser };
+const getUserByUsername = async (username, cb) => {
+  console.log(username);
+  const user = await User.findOne({
+    where: {
+      username
+    }
+  });
+  //console.log(`called from here: ${user}`);
+  cb(null, user);
+};
+
+const findById = async (id, cb) => {
+  const user = await User.findOne({
+    where: {
+      id
+    }
+  });
+  console.log(`called from here: ${user}`);
+  cb(null, user);
+};
+
+module.exports = { userRegister, getUser, getUserByUsername, findById };
