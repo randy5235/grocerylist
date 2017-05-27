@@ -28,7 +28,7 @@ router
 // POST a new list for a user
 router
   .route('/list')
-  .post(createList, (req, res) => {
+  .post(loggedIn, createList, (req, res) => {
     res.json({ listId: req.list.id, title: req.list.title });
   });
 

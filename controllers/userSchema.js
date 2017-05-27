@@ -1,6 +1,7 @@
 const dbConfig = require('../config/dbConfig').dbConfig;
 const bcrypt = require('bcrypt');
 const Sequelize = require('sequelize');
+const List = require('./listSchema').List;
 
 const sequelize = new Sequelize(dbConfig.url);
 
@@ -13,7 +14,8 @@ const User = sequelize.define('user', {
     type: Sequelize.STRING
   }
 });
-
+User.belongsToMany(List, {through: 'UserList'});
+List.belongsToMany(User, {through: 'UserList'});
 // force: true will drop the table if it already exists
 sequelize.sync({ force: false });
 

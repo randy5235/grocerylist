@@ -35,6 +35,9 @@ const createList = async (req, res, next) => {
     title: req.body.title,
     description: req.body.description
   });
+  console.log(`List.id ] ${list.id}`);
+  console.log(`User.id ] ${req.user.id}`);
+  list.addUser(req.user.id);
   req.list = list;
   next();
 };
@@ -81,4 +84,4 @@ const deleteItem = async (req, res, next) => {
   next();
 };
 
-module.exports = { createList, getList, deleteList, createItem, getItem, deleteItem };
+module.exports = { List, createList, getList, deleteList, createItem, getItem, deleteItem };
