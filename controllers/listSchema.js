@@ -35,8 +35,6 @@ const createList = async (req, res, next) => {
     title: req.body.title,
     description: req.body.description
   });
-  console.log(`List.id ] ${list.id}`);
-  console.log(`User.id ] ${req.user.id}`);
   list.addUser(req.user.id);
   req.list = list;
   next();
@@ -44,8 +42,15 @@ const createList = async (req, res, next) => {
 
 const getList = async (req, res, next) => {
   const list = await List.findById(req.params.list);
-  req.list = list;
-  next();
+  console.log(await list.hasUser(req.user.id));
+  if (await list.hasUser(req.user.id)) {
+    //console.log(list.hasUser(req.user.id));
+    req.list = list;
+    next();
+  } else {
+    req.list = { message: 'Record does not exist' };
+    next();
+  }
 };
 
 // adding for integration test

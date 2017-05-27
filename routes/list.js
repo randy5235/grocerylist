@@ -34,7 +34,7 @@ router
 
 // GET  or DELETE a specific list for a user
 router.route('/list/:list')
-  .get(getList, (req, res) => {
+  .get(loggedIn, getList, (req, res) => {
     res.json(req.list);
   })
   .delete(deleteList, (req, res) => {
