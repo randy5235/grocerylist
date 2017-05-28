@@ -61,7 +61,6 @@ const findById = async (id, cb) => {
       id
     }
   });
-  // console.log(`called from here: ${user}`);
   cb(null, user);
 };
 

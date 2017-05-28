@@ -30,7 +30,6 @@ Item.sync({ force: false });
 
 // force: true will drop the table if it already exists
 const createList = async (req, res, next) => {
-  // console.log(req.body);
   const list = await List.create({
     title: req.body.title,
     description: req.body.description
@@ -75,7 +74,6 @@ const deleteList = async (req, res, next) => {
 };
 
 const createItem = async (req, res, next) => {
-  // console.log(req.body);
   const item = await Item.create({
     title: req.body.title,
     description: req.body.description,
