@@ -46,7 +46,14 @@ const createList = async (req, res, next) => {
 const getAllLists = async (req, res, next) => {
   const user = req.user;
   const lists = await user.getLists();
-  req.lists = lists;
+  req.lists = lists.map(list => {
+    const conciseList = {
+      id: list.id,
+      title: list.title,
+      description: list.description
+    };
+    return conciseList;
+  });
   next();
 };
 
@@ -54,11 +61,10 @@ const getList = async (req, res, next) => {
   const list = await List.findById(req.params.list);
   console.log(await list.hasUser(req.user.id));
   if (await list.hasUser(req.user.id)) {
-    //console.log(list.hasUser(req.user.id));
     req.list = list;
     next();
   } else {
-    req.list = { message: 'Record does not exist' };
+    req.list = { error: 'Record does not exist' };
     next();
   }
 };

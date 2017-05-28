@@ -11,14 +11,13 @@ const passport = require('passport');
 
 const router = express.Router();
 // router.use(isAuthorized);
-function loggedIn(req, res, next) {
-    console.log(req.user);
+const loggedIn = (req, res, next) => {
     if (req.user) {
         next();
     } else {
-        res.redirect('/login');
+        res.json({ error: 'Please log in first.' });
     }
-}
+};
 // GET all lists for a user
 router
   .route('/lists')
@@ -30,7 +29,11 @@ router
 router
   .route('/list')
   .post(loggedIn, createList, (req, res) => {
-    res.json({ listId: req.list.id, title: req.list.title });
+    res.json({ 
+      listId: req.list.id,
+      title: req.list.title,
+      description: req.list.description
+    });
   });
 
 // GET  or DELETE a specific list for a user
