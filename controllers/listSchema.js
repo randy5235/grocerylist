@@ -85,9 +85,15 @@ const createItem = async (req, res, next) => {
 };
 
 const getItem = async (req, res, next) => {
-  const item = await List.findById(req.params.item);
-  req.item = item;
-  next();
+  const list = await List.findById(req.params.list);
+  if (await list.hasUser(req.user.id)) {
+    const item = await Item.findById(req.params.item);
+    req.item = item;
+    next();
+  } else {
+    req.item = { error: 'Item does not exist' };
+    next();
+  }
 };
 
 // adding for integration test

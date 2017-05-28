@@ -41,19 +41,20 @@ router.route('/list/:list')
   .get(loggedIn, getList, (req, res) => {
     res.json(req.list);
   })
-  .delete(deleteList, (req, res) => {
+  .delete(loggedIn, deleteList, (req, res) => {
     res.json(req.list);
   });
 
 // GET all items for a specific list
-router.route('/list/:list/items').get((req, res) => {
-  res.json({ message: 'returns all list items for a single list' });
-});
+router.route('/list/:list/items')
+  .get(loggedIn, (req, res) => {
+    res.json({ message: 'returns all list items for a single list' });
+  });
 
 // POST a new item to a specific list
 router
   .route('/list/:list/item')
-  .post(createItem, (req, res) => {
+  .post(loggedIn, createItem, (req, res) => {
     res.json(req.item);
   })
   .delete(deleteItem, (req, res) => {
@@ -62,7 +63,7 @@ router
 
 // GET a specific item from a specific list
 router.route('/list/:list/item/:item')
-  .get(getItem, (req, res) => {
+  .get(loggedIn, getItem, (req, res) => {
     res.json(req.item);
   });
 
