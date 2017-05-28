@@ -1,5 +1,8 @@
 const dbConfig = require('../config/dbConfig').dbConfig;
 const Sequelize = require('sequelize');
+const User = require('./userSchema').User;
+const findById = require('./userSchema').findById;
+
 
 const sequelize = new Sequelize(dbConfig.url);
 
@@ -37,6 +40,13 @@ const createList = async (req, res, next) => {
   });
   list.addUser(req.user.id);
   req.list = list;
+  next();
+};
+
+const getAllLists = async (req, res, next) => {
+  const user = req.user;
+  const lists = await user.getLists();
+  req.lists = lists;
   next();
 };
 
@@ -89,4 +99,4 @@ const deleteItem = async (req, res, next) => {
   next();
 };
 
-module.exports = { List, createList, getList, deleteList, createItem, getItem, deleteItem };
+module.exports = { List, createList, getAllLists, getList, deleteList, createItem, getItem, deleteItem };
