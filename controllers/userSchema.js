@@ -67,4 +67,4 @@ const findById = async (id, cb) => {
   cb(null, user);
 };
 
-module.exports = { userRegister, getUser, getUserByUsername, findById };
+module.exports = { User, userRegister, getUser, getUserByUsername, findById };

@@ -4,6 +4,7 @@ const deleteList = require('../controllers/listSchema').deleteList;
 const createItem = require('../controllers/listSchema').createItem;
 const deleteItem = require('../controllers/listSchema').deleteItem;
 const getItem = require('../controllers/listSchema').getItem;
+const getAllLists = require('../controllers/listSchema').getAllLists;
 // const isAuthenticated = require('../authentication/auth');
 const express = require('express');
 const passport = require('passport');
@@ -21,8 +22,8 @@ function loggedIn(req, res, next) {
 // GET all lists for a user
 router
   .route('/lists')
-  .get(loggedIn, (req, res) => {
-    res.json({ message: req.user.username });
+  .get(loggedIn, getAllLists, (req, res) => {
+    res.json(req.lists);
   });
 
 // POST a new list for a user
