@@ -1,8 +1,5 @@
 const dbConfig = require('../config/dbConfig').dbConfig;
 const Sequelize = require('sequelize');
-const User = require('./userSchema').User;
-const findById = require('./userSchema').findById;
-
 
 const sequelize = new Sequelize(dbConfig.url);
 
@@ -46,7 +43,7 @@ const createList = async (req, res, next) => {
 const getAllLists = async (req, res, next) => {
   const user = req.user;
   const lists = await user.getLists();
-  req.lists = lists.map(list => {
+  req.lists = lists.map((list) => {
     const conciseList = {
       id: list.id,
       title: list.title,
@@ -59,7 +56,6 @@ const getAllLists = async (req, res, next) => {
 
 const getList = async (req, res, next) => {
   const list = await List.findById(req.params.list);
-  console.log(await list.hasUser(req.user.id));
   if (await list.hasUser(req.user.id)) {
     req.list = list;
     next();
@@ -105,4 +101,12 @@ const deleteItem = async (req, res, next) => {
   next();
 };
 
-module.exports = { List, createList, getAllLists, getList, deleteList, createItem, getItem, deleteItem };
+module.exports = {
+  List,
+  createList,
+  getAllLists,
+  getList,
+  deleteList,
+  createItem,
+  getItem,
+  deleteItem };

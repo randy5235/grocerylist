@@ -7,16 +7,16 @@ const getItem = require('../controllers/listSchema').getItem;
 const getAllLists = require('../controllers/listSchema').getAllLists;
 // const isAuthenticated = require('../authentication/auth');
 const express = require('express');
-const passport = require('passport');
+// const passport = require('passport');
 
 const router = express.Router();
 // router.use(isAuthorized);
 const loggedIn = (req, res, next) => {
-    if (req.user) {
-        next();
-    } else {
-        res.json({ error: 'Please log in first.' });
-    }
+  if (req.user) {
+    next();
+  } else {
+    res.json({ error: 'Please log in first.' });
+  }
 };
 // GET all lists for a user
 router
@@ -29,7 +29,7 @@ router
 router
   .route('/list')
   .post(loggedIn, createList, (req, res) => {
-    res.json({ 
+    res.json({
       listId: req.list.id,
       title: req.list.title,
       description: req.list.description

@@ -14,8 +14,8 @@ const User = sequelize.define('user', {
     type: Sequelize.STRING
   }
 });
-User.belongsToMany(List, {through: 'UserList'});
-List.belongsToMany(User, {through: 'UserList'});
+User.belongsToMany(List, { through: 'UserList' });
+List.belongsToMany(User, { through: 'UserList' });
 // force: true will drop the table if it already exists
 sequelize.sync({ force: false });
 
@@ -47,13 +47,11 @@ const getUser = async (req, res, next) => {
 };
 
 const getUserByUsername = async (username, cb) => {
-  console.log(username);
   const user = await User.findOne({
     where: {
       username
     }
   });
-  //console.log(`called from here: ${user}`);
   cb(null, user);
 };
 

@@ -5,11 +5,8 @@ const findById = require('../controllers/userSchema').findById;
 const bcrypt = require('bcrypt');
 
 const checkCreds = passport.use(new LocalStrategy(
-  function(username, password, done) {
-    console.log(`USERNAME: ${username}`);
-    console.log(`PASSWORD: ${password}`);
-    getUser(username, function (err, user) {
-      //console.log(user)
+  (username, password, done) => {
+    getUser(username, (err, user) => {
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
       if (!bcrypt.compare(password, user.password)) { return done(null, false); }
@@ -18,24 +15,24 @@ const checkCreds = passport.use(new LocalStrategy(
   }
 ));
 
-passport.serializeUser(function(user, cb) {
+passport.serializeUser((user, cb) => {
   cb(null, user.id);
 });
 
-passport.deserializeUser(function(id, cb) {
-  findById(id, function (err, user) {
+passport.deserializeUser((id, cb) => {
+  findById(id, (err, user) => {
     if (err) { return cb(err); }
     cb(null, user);
   });
 });
 
-function isAuthorized (req,res,next){
-    if(req.isAuthenticated()){
-        //if user is looged in, req.isAuthenticated() will return true 
-        next();
-    } else{
-        res.json({ message: 'Try AGAIN' });
-    }
+function isAuthorized(req, res, next) {
+  if (req.isAuthenticated()) {
+  // if user is looged in, req.isAuthenticated() will return true
+    next();
+  } else {
+    res.json({ message: 'Try AGAIN' });
+  }
 }
 
 module.exports = { checkCreds, isAuthorized };

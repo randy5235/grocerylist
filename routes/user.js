@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt');
 const findById = require('../controllers/userSchema').findById;
 
 
-
 const router = express.Router();
 
 const compare = async (reqPassword, userPassword) => {
@@ -37,15 +36,6 @@ passport.deserializeUser((id, cb) => {
     cb(null, user);
   });
 });
-
-// function isAuthorized (req,res,next){
-//     if(req.isAuthenticated()){
-//         //if user is looged in, req.isAuthenticated() will return true 
-//         next();
-//     } else{
-//         res.json({ message: 'Try AGAIN' });
-//     }
-// }
 
 router.route('/register').post(registerUser, (req, res) => {
   res.json({ userId: req.user.id, username: req.user.username });
