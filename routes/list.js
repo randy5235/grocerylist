@@ -23,7 +23,7 @@ function loggedIn(req, res, next) {
 router
   .route('/lists')
   .get(loggedIn, getAllLists, (req, res) => {
-    res.json(req.lists);
+    res.json({ lists: req.lists });
   });
 
 // POST a new list for a user
