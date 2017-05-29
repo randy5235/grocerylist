@@ -25,6 +25,8 @@ const Item = sequelize.define('items', {
 });
 
 Item.belongsTo(List);
+List.hasMany(Item);
+
 List.sync({ force: false });
 Item.sync({ force: false });
 
@@ -84,6 +86,13 @@ const createItem = async (req, res, next) => {
   next();
 };
 
+const getItems = async (req, res, next) => {
+  console.log(req.list);
+  const items = await req.list.getItems();
+  req.items = items;
+  next();
+};
+
 const getItem = async (req, res, next) => {
   const list = await List.findById(req.params.list);
   if (await list.hasUser(req.user.id)) {
@@ -113,4 +122,6 @@ module.exports = {
   deleteList,
   createItem,
   getItem,
-  deleteItem };
+  deleteItem,
+  getItems
+};

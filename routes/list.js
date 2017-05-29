@@ -5,6 +5,7 @@ const createItem = require('../controllers/listSchema').createItem;
 const deleteItem = require('../controllers/listSchema').deleteItem;
 const getItem = require('../controllers/listSchema').getItem;
 const getAllLists = require('../controllers/listSchema').getAllLists;
+const getItems = require('../controllers/listSchema').getItems;
 // const isAuthenticated = require('../authentication/auth');
 const express = require('express');
 // const passport = require('passport');
@@ -47,8 +48,8 @@ router.route('/list/:list')
 
 // GET all items for a specific list
 router.route('/list/:list/items')
-  .get(loggedIn, (req, res) => {
-    res.json({ message: 'returns all list items for a single list' });
+  .get(loggedIn, getList, getItems, (req, res) => {
+    res.json({ items: req.items });
   });
 
 // POST a new item to a specific list
