@@ -87,10 +87,14 @@ const createItem = async (req, res, next) => {
 };
 
 const getItems = async (req, res, next) => {
-  console.log(req.list);
-  const items = await req.list.getItems();
-  req.items = items;
-  next();
+  const list = await List.findById(req.params.list, { include: [Item] });
+  if (await list.hasUser(req.user.id)) {
+    req.list = list;
+    next();
+  } else {
+    req.list = { error: 'Record does not exist' };
+    next();
+  }
 };
 
 const getItem = async (req, res, next) => {

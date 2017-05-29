@@ -49,7 +49,8 @@ router.route('/list/:list')
 // GET all items for a specific list
 router.route('/list/:list/items')
   .get(loggedIn, getList, getItems, (req, res) => {
-    res.json({ items: req.items });
+    console.log(req.list);
+    res.json({ list: req.list });
   });
 
 // POST a new item to a specific list
