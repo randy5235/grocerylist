@@ -6,6 +6,7 @@ const deleteItem = require('../controllers/listSchema').deleteItem;
 const getItem = require('../controllers/listSchema').getItem;
 const getAllLists = require('../controllers/listSchema').getAllLists;
 const getItems = require('../controllers/listSchema').getItems;
+const updateItem = require('../controllers/listSchema').updateItem;
 // const isAuthenticated = require('../authentication/auth');
 const express = require('express');
 // const passport = require('passport');
@@ -62,6 +63,9 @@ router
 // GET a specific item from a specific list
 router.route('/list/:list/item/:item')
   .get(loggedIn, getItem, (req, res) => {
+    res.json(req.item);
+  })
+  .patch(loggedIn, updateItem, (req, res) => {
     res.json(req.item);
   })
   .delete(deleteItem, (req, res) => {

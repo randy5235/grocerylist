@@ -109,6 +109,13 @@ const getItem = async (req, res, next) => {
   }
 };
 
+const updateItem = async (req, res, next) => {
+  const item = await Item.findById(req.params.item);
+  const itemUpdate = await item.update(req.body);
+  req.item = itemUpdate;
+  next();
+};
+
 // adding for integration test
 const deleteItem = async (req, res, next) => {
   const item = await Item.destroy({
@@ -127,5 +134,6 @@ module.exports = {
   createItem,
   getItem,
   deleteItem,
-  getItems
+  getItems,
+  updateItem
 };
