@@ -1,10 +1,10 @@
 const express = require('express');
-const registerUser = require('../controllers/userSchema').userRegister;
-const getUser = require('../controllers/userSchema').getUserByUsername;
+const { userRegister } = require('../controllers/userSchema');
+const { getUserByUsername } = require('../controllers/userSchema');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-const findById = require('../controllers/userSchema').findById;
+const { findById } = require('../controllers/userSchema');
 
 
 const router = express.Router();
@@ -15,7 +15,7 @@ const compare = async (reqPassword, userPassword) => {
 };
 
 passport.use(new LocalStrategy((username, password, done) => {
-  getUser(username, (err, user) => {
+  getUserByUsername(username, (err, user) => {
     if (err) { return done(err); }
     if (!user) { return done(null, false); }
     compare(password, user.password)
@@ -37,7 +37,7 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
-router.route('/register').post(registerUser, (req, res) => {
+router.route('/register').post(userRegister, (req, res) => {
   res.json({ userId: req.user.id, username: req.user.username });
 });
 router

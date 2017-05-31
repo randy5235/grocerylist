@@ -1,7 +1,7 @@
-const dbConfig = require('../config/dbConfig').dbConfig;
+const { dbConfig } = require('../config/dbConfig');
 const bcrypt = require('bcrypt');
 const Sequelize = require('sequelize');
-const List = require('./listSchema').List;
+const { List } = require('./listSchema');
 
 const sequelize = new Sequelize(dbConfig.url);
 
