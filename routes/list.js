@@ -57,14 +57,14 @@ router
   .route('/list/:list/item')
   .post(loggedIn, createItem, (req, res) => {
     res.json(req.item);
-  })
-  .delete(deleteItem, (req, res) => {
-    res.json(req.item);
   });
 
 // GET a specific item from a specific list
 router.route('/list/:list/item/:item')
   .get(loggedIn, getItem, (req, res) => {
+    res.json(req.item);
+  })
+  .delete(deleteItem, (req, res) => {
     res.json(req.item);
   });
 
