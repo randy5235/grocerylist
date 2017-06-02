@@ -4,6 +4,7 @@ const express = require('express');
 const passport = require('passport');
 const router = require('./routes');
 const session = require('express-session');
+require('./authentication/auth');
 
 const app = express();
 const port = process.env.PORT || 3000;
