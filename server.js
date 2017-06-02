@@ -8,6 +8,7 @@ require('./authentication/auth');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
 app.use(session(sessionSecret));
 app.use(passport.initialize());
 app.use(passport.session());
