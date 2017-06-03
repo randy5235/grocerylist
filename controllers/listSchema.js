@@ -68,6 +68,9 @@ const getList = async (req, res, next) => {
 
 // adding for integration test
 const deleteList = async (req, res, next) => {
+  const items = await List.findById(req.params.list, { include: [Item] });
+  const deletedItems = await items.items.map((item) => item.destroy());
+  console.log(deletedItems);
   const list = await List.destroy({
     where: { id: req.params.list }
   });
