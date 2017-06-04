@@ -27,8 +27,11 @@ const Item = sequelize.define('items', {
 Item.belongsTo(List);
 List.hasMany(Item);
 
-List.sync({ force: false });
-Item.sync({ force: false });
+List.sync({ force: false })
+  .catch(() => { console.log('unable to sync database'); });
+Item.sync({ force: false })
+  .catch(() => { console.log('unable to sync database'); });
+
 
 // force: true will drop the table if it already exists
 const createList = async (req, res, next) => {

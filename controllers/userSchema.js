@@ -17,7 +17,9 @@ const User = sequelize.define('user', {
 User.belongsToMany(List, { through: 'UserList' });
 List.belongsToMany(User, { through: 'UserList' });
 // force: true will drop the table if it already exists
-sequelize.sync({ force: false });
+sequelize.sync({ force: false })
+  .catch(() => { console.log('unable to sync database'); });
+
 
 const userRegister = async (req, res, next) => {
   const password = await bcrypt.hash(req.body.password, await bcrypt.genSalt(8));
