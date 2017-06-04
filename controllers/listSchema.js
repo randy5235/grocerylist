@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const winston = require('winston');
 
 winston.level = 'debug';
-winston.add(winston.transports.File, { filename: './somefile.log', level: 'debug' });
+winston.add(winston.transports.File, { filename: `./logs/${new Date().toISOString()}.log`, level: 'verbose' });
 
 const sequelize = new Sequelize(dbConfig.url);
 
