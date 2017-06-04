@@ -56,13 +56,18 @@ const getAllLists = async (req, res, next) => {
 };
 
 const getList = async (req, res, next) => {
-  const list = await List.findById(req.params.list);
-  if (await list.hasUser(req.user.id)) {
-    req.list = list;
+  try {
+    const list = await List.findById(req.params.list);
+    if (list) {
+      if (await list.hasUser(req.user.id)) {
+        req.list = list;
+      }
+    } else {
+      req.list = { error: 'Record does not exist' };
+    }
     next();
-  } else {
-    req.list = { error: 'Record does not exist' };
-    next();
+  } catch (err) {
+    console.log(err); // replace with logger
   }
 };
 
@@ -70,7 +75,6 @@ const getList = async (req, res, next) => {
 const deleteList = async (req, res, next) => {
   const items = await List.findById(req.params.list, { include: [Item] });
   const deletedItems = await items.items.map((item) => item.destroy());
-  console.log(deletedItems);
   const list = await List.destroy({
     where: { id: req.params.list }
   });
