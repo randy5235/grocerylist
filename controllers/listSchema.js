@@ -27,21 +27,26 @@ const Item = sequelize.define('items', {
 Item.belongsTo(List);
 List.hasMany(Item);
 
-List.sync({ force: false })
-  .catch(() => { console.log('unable to sync database'); });
-Item.sync({ force: false })
-  .catch(() => { console.log('unable to sync database'); });
-
+List.sync({ force: false }).catch(() => {
+  console.log('unable to sync database');
+});
+Item.sync({ force: false }).catch(() => {
+  console.log('unable to sync database');
+});
 
 // force: true will drop the table if it already exists
 const createList = async (req, res, next) => {
-  const list = await List.create({
-    title: req.body.title,
-    description: req.body.description
-  });
-  list.addUser(req.user.id);
-  req.list = list;
-  next();
+  try {
+    const list = await List.create({
+      title: req.body.title,
+      description: req.body.description
+    });
+    list.addUser(req.user.id);
+    req.list = list;
+    next();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const getAllLists = async (req, res, next) => {
@@ -77,11 +82,13 @@ const getList = async (req, res, next) => {
 // adding for integration test
 const deleteList = async (req, res, next) => {
   const items = await List.findById(req.params.list, { include: [Item] });
-  const deletedItems = await items.items.map((item) => item.destroy());
+  const deletedItems = await items.items.map(item => item.destroy());
   const list = await List.destroy({
     where: { id: req.params.list }
   });
-  req.list = list ? { message: 'Record successfully deleted' } : { error: 'Cannot delete record' };
+  req.list = list
+    ? { message: 'Record successfully deleted' }
+    : { error: 'Cannot delete record' };
   next();
 };
 
@@ -131,7 +138,9 @@ const deleteItem = async (req, res, next) => {
   const item = await Item.destroy({
     where: { id: req.params.item }
   });
-  req.item = item ? { message: 'Record successfully deleted' } : { error: 'Cannot delete record' };
+  req.item = item
+    ? { message: 'Record successfully deleted' }
+    : { error: 'Cannot delete record' };
   next();
 };
 
