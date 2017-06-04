@@ -26,7 +26,8 @@
     "passport-local": "^1.0.0",
     "pg": "^6.2.2",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^3.30.4"
+    "sequelize": "^3.30.4",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "eslint": "^3.19.0",

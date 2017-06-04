@@ -1,5 +1,9 @@
 const { dbConfig } = require('../config/dbConfig');
 const Sequelize = require('sequelize');
+const winston = require('winston');
+
+winston.level = 'debug';
+winston.add(winston.transports.File, { filename: './somefile.log', level: 'debug' });
 
 const sequelize = new Sequelize(dbConfig.url);
 
@@ -28,10 +32,10 @@ Item.belongsTo(List);
 List.hasMany(Item);
 
 List.sync({ force: false }).catch(() => {
-  console.log('unable to sync database');
+  winston.debug('unable to sync database');
 });
 Item.sync({ force: false }).catch(() => {
-  console.log('unable to sync database');
+  winston.log('unable to sync database');
 });
 
 // force: true will drop the table if it already exists
@@ -45,7 +49,7 @@ const createList = async (req, res, next) => {
     req.list = list;
     next();
   } catch (err) {
-    console.log(err);
+    winston.log(err);
   }
 };
 
@@ -63,7 +67,7 @@ const getAllLists = async (req, res, next) => {
     });
     next();
   } catch (err) {
-    console.log(err);
+    winston.log(err);
   }
 };
 
@@ -79,7 +83,7 @@ const getList = async (req, res, next) => {
     }
     next();
   } catch (err) {
-    console.log(err); // replace with logger
+    winston.log(err); // replace with logger
   }
 };
 
@@ -96,79 +100,79 @@ const deleteList = async (req, res, next) => {
       : { error: 'Cannot delete record' };
     next();
   } catch (err) {
-    console.log(err);
+    winston.log(err);
   }
 };
 
 const createItem = async (req, res, next) => {
   try {
-  const item = await Item.create({
-    title: req.body.title,
-    description: req.body.description,
-    isDone: false,
-    listId: req.params.list
-  });
-  req.item = item;
-  next();
+    const item = await Item.create({
+      title: req.body.title,
+      description: req.body.description,
+      isDone: false,
+      listId: req.params.list
+    });
+    req.item = item;
+    next();
   } catch (err) {
-    console.log(err);
+    winston.log(err);
   }
 };
 
 const getItems = async (req, res, next) => {
   try {
-  const list = await List.findById(req.params.list, { include: [Item] });
-  if (await list.hasUser(req.user.id)) {
-    req.list = list;
-    next();
-  } else {
-    req.list = { error: 'Record does not exist' };
-    next();
-  }
+    const list = await List.findById(req.params.list, { include: [Item] });
+    if (await list.hasUser(req.user.id)) {
+      req.list = list;
+      next();
+    } else {
+      req.list = { error: 'Record does not exist' };
+      next();
+    }
   } catch (err) {
-    console.log(err);
+    winston.log(err);
   }
 };
 
 const getItem = async (req, res, next) => {
   try {
-  const list = await List.findById(req.params.list);
-  if (await list.hasUser(req.user.id)) {
-    const item = await Item.findById(req.params.item);
-    req.item = item;
-    next();
-  } else {
-    req.item = { error: 'Item does not exist' };
-    next();
-  }
+    const list = await List.findById(req.params.list);
+    if (await list.hasUser(req.user.id)) {
+      const item = await Item.findById(req.params.item);
+      req.item = item;
+      next();
+    } else {
+      req.item = { error: 'Item does not exist' };
+      next();
+    }
   } catch (err) {
-    console.log(err);
+    winston.log(err);
   }
 };
 
 const updateItem = async (req, res, next) => {
   try {
-  const item = await Item.findById(req.params.item);
-  const itemUpdate = await item.update(req.body);
-  req.item = itemUpdate;
-  next();
+    const item = await Item.findById(req.params.item);
+    const itemUpdate = await item.update(req.body);
+    req.item = itemUpdate;
+    next();
   } catch (err) {
-    console.log(err);
+    winston.log(err);
   }
 };
 
 // adding for integration test
 const deleteItem = async (req, res, next) => {
   try {
-  const item = await Item.destroy({
-    where: { id: req.params.item }
-  });
-  req.item = item
-    ? { message: 'Record successfully deleted' }
-    : { error: 'Cannot delete record' };
-  next();
+    const item = await Item.destroy({
+      where: { id: req.params.item }
+    });
+    req.item = item
+      ? { message: 'Record successfully deleted' }
+      : { error: 'Cannot delete record' };
+    next();
   } catch (err) {
-    console.log(err);
+    winston.log(err);
   }
 };
 
