@@ -50,17 +50,21 @@ const createList = async (req, res, next) => {
 };
 
 const getAllLists = async (req, res, next) => {
-  const user = req.user;
-  const lists = await user.getLists();
-  req.lists = lists.map((list) => {
-    const conciseList = {
-      id: list.id,
-      title: list.title,
-      description: list.description
-    };
-    return conciseList;
-  });
-  next();
+  try {
+    const user = req.user;
+    const lists = await user.getLists();
+    req.lists = lists.map((list) => {
+      const conciseList = {
+        id: list.id,
+        title: list.title,
+        description: list.description
+      };
+      return conciseList;
+    });
+    next();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const getList = async (req, res, next) => {
@@ -81,18 +85,23 @@ const getList = async (req, res, next) => {
 
 // adding for integration test
 const deleteList = async (req, res, next) => {
-  const items = await List.findById(req.params.list, { include: [Item] });
-  const deletedItems = await items.items.map(item => item.destroy());
-  const list = await List.destroy({
-    where: { id: req.params.list }
-  });
-  req.list = list
-    ? { message: 'Record successfully deleted' }
-    : { error: 'Cannot delete record' };
-  next();
+  try {
+    const items = await List.findById(req.params.list, { include: [Item] });
+    const deletedItems = await items.items.map(item => item.destroy());
+    const list = await List.destroy({
+      where: { id: req.params.list }
+    });
+    req.list = list
+      ? { message: 'Record successfully deleted' }
+      : { error: 'Cannot delete record' };
+    next();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const createItem = async (req, res, next) => {
+  try {
   const item = await Item.create({
     title: req.body.title,
     description: req.body.description,
@@ -101,9 +110,13 @@ const createItem = async (req, res, next) => {
   });
   req.item = item;
   next();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const getItems = async (req, res, next) => {
+  try {
   const list = await List.findById(req.params.list, { include: [Item] });
   if (await list.hasUser(req.user.id)) {
     req.list = list;
@@ -112,9 +125,13 @@ const getItems = async (req, res, next) => {
     req.list = { error: 'Record does not exist' };
     next();
   }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const getItem = async (req, res, next) => {
+  try {
   const list = await List.findById(req.params.list);
   if (await list.hasUser(req.user.id)) {
     const item = await Item.findById(req.params.item);
@@ -124,17 +141,25 @@ const getItem = async (req, res, next) => {
     req.item = { error: 'Item does not exist' };
     next();
   }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const updateItem = async (req, res, next) => {
+  try {
   const item = await Item.findById(req.params.item);
   const itemUpdate = await item.update(req.body);
   req.item = itemUpdate;
   next();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // adding for integration test
 const deleteItem = async (req, res, next) => {
+  try {
   const item = await Item.destroy({
     where: { id: req.params.item }
   });
@@ -142,6 +167,9 @@ const deleteItem = async (req, res, next) => {
     ? { message: 'Record successfully deleted' }
     : { error: 'Cannot delete record' };
   next();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports = {
