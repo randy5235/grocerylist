@@ -3,7 +3,10 @@ const Sequelize = require('sequelize');
 const winston = require('winston');
 
 winston.level = 'debug';
-winston.add(winston.transports.File, { filename: `./logs/${new Date().toISOString()}.log`, level: 'verbose' });
+winston.add(winston.transports.File, {
+  filename: `./logs/${new Date().toISOString()}.log`,
+  level: 'verbose'
+});
 
 const sequelize = new Sequelize(dbConfig.url);
 
@@ -89,6 +92,7 @@ const getList = async (req, res, next) => {
 
 // adding for integration test
 const deleteList = async (req, res, next) => {
+  /* eslint no-unused-vars: "off" */
   try {
     const items = await List.findById(req.params.list, { include: [Item] });
     const deletedItems = await items.items.map(item => item.destroy());

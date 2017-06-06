@@ -1,3 +1,4 @@
+/* eslint consistent-return: "off"*/
 const bcrypt = require('bcrypt');
 const { findById } = require('../controllers/userSchema');
 const { getUserByUsername } = require('../controllers/userSchema');
