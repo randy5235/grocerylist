@@ -126,9 +126,7 @@ const createItem = async (req, res, next) => {
 const getItems = async (req, res, next) => {
   try {
     const list = await List.findById(req.params.list, { include: [Item] });
-    if (list === null) {
-      req.list = { error: 'Record does not exist' };
-    } else if (await list.hasUser(req.user.id)) {
+    if (list !== null && await list.hasUser(req.user.id)) {
       req.list = list;
     } else {
       req.list = { error: 'Record does not exist' };
