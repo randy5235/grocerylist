@@ -14,6 +14,7 @@ router
   .post(passport.authenticate('local', {}), (req, res) => res.json({ username: req.user.username }));
 
 router.route('/logout').post((req, res) => {
+  req.logout();
   res.json({ message: 'OK' });
 });
 
