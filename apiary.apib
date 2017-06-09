@@ -85,15 +85,17 @@ Create a new list
 
 + Request (application/json)
 
-        + Headers
-                authorized: true
+    + Headers
+        
+            authorized: true
 
-        + Body
-                {"title":"Dredd Test", "description":"Dredd test description"}
+    + Body
+        
+            {"title":"Dredd Test", "description":"Dredd test description"}
 
 + Response 200 (application/json;charset=utf-8)
 
-                { "id": "7", "title": "value", "description": "value", "createdAt": "value", "updatedAt": "value" }
+        {"id": "7", "title": "value", "description": "value", "createdAt": "value", "updatedAt": "value" }
 
 
 ## list/:list [/api/list/{list}]
