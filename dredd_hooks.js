@@ -2,7 +2,7 @@
 
 const hooks = require('hooks');
 
-var stash = {};
+const stash = {};
 
 function User() {
   this.username = `test_${Date.now()}`;
@@ -30,7 +30,17 @@ hooks.before('lists > lists > Send back a collection of all lists that a user ha
   transaction.request['headers']['Cookie'] = cookie;
   done();
 });
+hooks.before('lists > list > Create a new list', function (transaction, done) {
+  var cookie = stash.cookie;
+  transaction.request['headers']['Cookie'] = cookie;
+  done();
+});
 hooks.before('lists > list/:list > Send back a specific lists that a user has access to', function (transaction, done) {
+  var cookie = stash.cookie;
+  transaction.request['headers']['Cookie'] = cookie;
+  done();
+});
+hooks.before('lists > list/:list > Delete a specific list that a user has access to', function (transaction, done) {
   var cookie = stash.cookie;
   transaction.request['headers']['Cookie'] = cookie;
   done();

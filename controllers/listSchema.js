@@ -100,7 +100,7 @@ const deleteList = async (req, res, next) => {
       where: { id: req.params.list }
     });
     req.list = list
-      ? { message: 'Record successfully deleted' }
+      ? { id: list.id, message: 'Record successfully deleted', deleted: true }
       : { error: 'Cannot delete record' };
     next();
   } catch (err) {

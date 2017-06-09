@@ -39,6 +39,7 @@ router
   .get(hasValidSession, getList, (req, res) => {
     res.json(req.list);
   })
+  // .patch method needed here
   .delete(hasValidSession, deleteList, (req, res) => {
     res.json(req.list);
   });

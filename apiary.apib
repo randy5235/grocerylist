@@ -77,6 +77,25 @@ Get a collection of lists for the current user.
 
         { "lists": [] }
 
+## list [/api/list]
+
+### Create a new list [POST]
+
+Create a new list
+
++ Request (application/json)
+
+        + Headers
+                authorized: true
+
+        + Body
+                {"title":"Dredd Test", "description":"Dredd test description"}
+
++ Response 200 (application/json;charset=utf-8)
+
+                { "id": "7", "title": "value", "description": "value", "createdAt": "value", "updatedAt": "value" }
+
+
 ## list/:list [/api/list/{list}]
 
 ### Send back a specific lists that a user has access to [GET]
@@ -107,7 +126,7 @@ Delete a specific list.
     
 + Response 200 (application/json; charset=utf-8)
 
-        { "id": "7", "title": "value", "description": "value", "createdAt": "value", "updatedAt": "value" }    
+        { "id": "7", "message":"Record deleted succesfully", deleted: true }    
         
 ## Group items
 
