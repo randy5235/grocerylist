@@ -1,7 +1,12 @@
 ## Synopsis
 
-This repository provides a REST API service for building a grocery list like application that allows you to share lists between users.
-
+This repository provides a REST API service for building a grocery list like application that allows you to share lists between users. Targeted for node 7.10.0 or higher. Using a postgres cloud based backend. Currently hosted on elephantsql.com. Place url in config/db.json as follows:
+```
+{
+  "URL":"postgres://USERNAME:password@HOST:port/databaseName",
+  "sessionSecret":"placeyoursessionsecrether"
+}
+```
 <!--- ## Code Example
 
 Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.

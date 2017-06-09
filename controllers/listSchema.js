@@ -3,7 +3,10 @@ const Sequelize = require('sequelize');
 const winston = require('winston');
 
 winston.level = 'debug';
-winston.add(winston.transports.File, { filename: `./logs/${new Date().toISOString()}.log`, level: 'verbose' });
+winston.add(winston.transports.File, {
+  filename: `./logs/${new Date().toISOString()}.log`,
+  level: 'verbose'
+});
 
 const sequelize = new Sequelize(dbConfig.url);
 
@@ -89,6 +92,7 @@ const getList = async (req, res, next) => {
 
 // adding for integration test
 const deleteList = async (req, res, next) => {
+  /* eslint no-unused-vars: "off" */
   try {
     const items = await List.findById(req.params.list, { include: [Item] });
     const deletedItems = await items.items.map(item => item.destroy());
@@ -122,13 +126,12 @@ const createItem = async (req, res, next) => {
 const getItems = async (req, res, next) => {
   try {
     const list = await List.findById(req.params.list, { include: [Item] });
-    if (await list.hasUser(req.user.id)) {
+    if (list !== null && await list.hasUser(req.user.id)) {
       req.list = list;
-      next();
     } else {
       req.list = { error: 'Record does not exist' };
-      next();
     }
+    next();
   } catch (err) {
     winston.log(err);
   }

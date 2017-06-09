@@ -22,7 +22,7 @@ Create a new user in the system.
 
     + Body
 
-            { "username" : "randy", "password" : "MyPassword"}
+            { "username" : "Test1", "password" : "password"}
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -38,7 +38,7 @@ Authenticates an existing user and creates a valid session token.
 
     + Body
 
-            { "username" : "randy", "password" : "MyPassword"}
+            { "username" : "Test1", "password" : "password"}
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -75,14 +75,18 @@ Get a collection of lists for the current user.
 
 + Response 200 (application/json; charset=utf-8)
 
-        { "message": "New User" }
+        { "lists": [] }
 
-## list/:list [/api/list/:list]
+## list/:list [/api/list/{list}]
 
 ### Send back a specific lists that a user has access to [GET]
 
 Retrieve a specific list.
 
++ Parameters
+
+    + list: `7` (number, required) - Id of list.
+
 + Request (application/json)
 
     + Headers
@@ -91,18 +95,22 @@ Retrieve a specific list.
 
 + Response 200 (application/json; charset=utf-8)
 
-        { "message": "New User" }
+        { "id": "7", "title": "value", "description": "value", "createdAt": "value", "updatedAt": "value" }
         
 ## Group items
 
 Resources related to item creation and updates and deletion
 
-## items [/api/list/:list/items]
+## items [/api/list/{list}/items]
 
 ### Send back a collection of all items that a user has access to on a given list [GET]
 
 Get a collection of items for the current list.
 
++ Parameters
+
+    + list: `7` (number, required) - Id of list.
+
 + Request (application/json)
 
     + Headers
@@ -111,14 +119,21 @@ Get a collection of items for the current list.
 
 + Response 200 (application/json; charset=utf-8)
 
-        { "message": "New User" }
+        {"list":{"id":7,"title":"Test with user","description":"somestuff","createdAt":"2017-05-27T05:57:05.352Z","updatedAt":"2017-05-27T05:57:05.352Z","items":[]}}
 
-## list/:list/item/:item [/api/list/:list/item/:item]
+
+## list/:list/item/:item [/api/list/{list}/item/{item}]
 
 ### Send back a specific item that a user has access to [GET]
 
 Retrieve a specific item.
 
++ Parameters
+
+    + list: `7` (number, required) - Id of list.
+
+    + item: `2` (number, required) - Id of item.
+
 + Request (application/json)
 
     + Headers
@@ -127,4 +142,4 @@ Retrieve a specific item.
 
 + Response 200 (application/json; charset=utf-8)
 
-        { "message": "New User" }
+        {"id":2,"title":"test","description":"test","isDone":false,"createdAt":"2017-06-07T05:49:58.715Z","updatedAt":"2017-06-07T05:49:58.715Z","listId":7}
