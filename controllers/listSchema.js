@@ -11,6 +11,11 @@ winston.add(winston.transports.File, {
 const sequelize = new Sequelize(dbConfig.url);
 
 const List = sequelize.define('lists', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
   title: {
     type: Sequelize.STRING
   },
@@ -100,7 +105,7 @@ const deleteList = async (req, res, next) => {
       where: { id: req.params.list }
     });
     req.list = list
-      ? { id: list.id, message: 'Record successfully deleted', deleted: true }
+      ? { id: req.params.list, message: 'Record successfully deleted', deleted: true }
       : { error: 'Cannot delete record' };
     next();
   } catch (err) {

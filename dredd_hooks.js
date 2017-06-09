@@ -35,14 +35,25 @@ hooks.before('lists > list > Create a new list', function (transaction, done) {
   transaction.request['headers']['Cookie'] = cookie;
   done();
 });
+hooks.after('lists > list > Create a new list', function (transaction, done) {
+  const list = transaction.real.body;
+  stash.list = JSON.parse(list).listId;
+  // console.log(JSON.parse(list).listId);
+  done();
+});
 hooks.before('lists > list/:list > Send back a specific lists that a user has access to', function (transaction, done) {
   var cookie = stash.cookie;
+  //console.log(stash.list);
   transaction.request['headers']['Cookie'] = cookie;
+  transaction.fullPath = `/api/list/${stash.list}`;
+  transaction.request.uri = `/api/list/${stash.list}`;
   done();
 });
 hooks.before('lists > list/:list > Delete a specific list that a user has access to', function (transaction, done) {
   var cookie = stash.cookie;
   transaction.request['headers']['Cookie'] = cookie;
+  transaction.fullPath = `/api/list/${stash.list}`;
+  transaction.request.uri = `/api/list/${stash.list}`;
   done();
 });
 hooks.before('items > items > Send back a collection of all items that a user has access to on a given list', function (transaction, done) {

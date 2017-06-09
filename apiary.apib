@@ -93,9 +93,9 @@ Create a new list
         
             {"title":"Dredd Test", "description":"Dredd test description"}
 
-+ Response 200 (application/json;charset=utf-8)
++ Response 200 (application/json; charset=utf-8)
 
-        {"id": "7", "title": "value", "description": "value", "createdAt": "value", "updatedAt": "value" }
+        {"listId": "7", "title": "value", "description": "value"}
 
 
 ## list/:list [/api/list/{list}]
@@ -128,7 +128,7 @@ Delete a specific list.
     
 + Response 200 (application/json; charset=utf-8)
 
-        { "id": "7", "message":"Record deleted succesfully", deleted: true }    
+        { "id": "7", "message":"Record deleted succesfully", "deleted": true }    
         
 ## Group items
 
