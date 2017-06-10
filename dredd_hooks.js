@@ -59,6 +59,8 @@ hooks.before('lists > list/:list > Delete a specific list that a user has access
 hooks.before('items > items > Send back a collection of all items that a user has access to on a given list', function (transaction, done) {
   var cookie = stash.cookie;
   transaction.request['headers']['Cookie'] = cookie;
+  transaction.fullPath = `/api/list/${stash.list}/items`;
+  transaction.request.uri = `/api/list/${stash.list}/items`;
   done();
 });
 hooks.before('items > list/:list/item/:item > Send back a specific item that a user has access to', function (transaction, done) {
