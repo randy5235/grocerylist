@@ -35,6 +35,20 @@ hooks.before('lists > list > Create a new list', function (transaction, done) {
   transaction.request['headers']['Cookie'] = cookie;
   done();
 });
+hooks.before('items > item > Create a new item for a list', function (transaction, done) {
+  var cookie = stash.cookie;
+  transaction.request['headers']['Cookie'] = cookie;
+  transaction.fullPath = `/api/list/${stash.list}/item`;
+  transaction.request.uri = `/api/list/${stash.list}/item`;
+  done();
+});
+hooks.after('items > item > Create a new item for a list', function (transaction, done) {
+  const item = transaction.real.body;
+  console.log(JSON.parse(item));
+  stash.item = JSON.parse(item).id;
+  console.log(stash.item);
+  done();
+});
 hooks.after('lists > list > Create a new list', function (transaction, done) {
   const list = transaction.real.body;
   stash.list = JSON.parse(list).listId;
@@ -64,8 +78,11 @@ hooks.before('items > items > Send back a collection of all items that a user ha
   done();
 });
 hooks.before('items > list/:list/item/:item > Send back a specific item that a user has access to', function (transaction, done) {
+  console.log(stash.list, stash.item)
   var cookie = stash.cookie;
   transaction.request['headers']['Cookie'] = cookie;
+  transaction.fullPath = `/api/list/${stash.list}/item/${stash.item}`;
+  transaction.request.uri = `/api/list/${stash.list}/item/${stash.item}`;
   done();
 });
 
