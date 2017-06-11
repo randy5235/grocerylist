@@ -154,6 +154,27 @@ Get a collection of items for the current list.
 
         {"list":{"id":7,"title":"Test with user","description":"somestuff","createdAt":"2017-05-27T05:57:05.352Z","updatedAt":"2017-05-27T05:57:05.352Z","items":[]}}
 
+## list/:list/item [/api/list/{list}/item]
+
+### Create a new item for a list [POST]
+
+Create a new item.
+
++ Request (application/json)
+
+    + Headers
+        
+            authorized: true
+
+    + Body
+        
+            {"title":"Dredd Item", "description":"Dredd Item description"}
+
++ Response 200 (application/json; charset=utf-8)
+
+        {"ItemId": "8", "title": "value", "description": "value"}
+
+
 
 ## list/:list/item/:item [/api/list/{list}/item/{item}]
 
