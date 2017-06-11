@@ -49,7 +49,7 @@ router.route('/list/:list/items').get(hasValidSession, getItems, (req, res) => {
 });
 
 router.route('/list/:list/item').post(hasValidSession, createItem, (req, res) => {
-  res.json(req.item);
+  res.json(req.item || req.error);
 });
 
 router

@@ -15,7 +15,11 @@ function User() {
 const getUser = new User();
 
 hooks.before('users > Register > Create a new user', (transaction, done) => {
-  // const requestBody = JSON.parse(transaction.request.body);
+  transaction.request.body = JSON.stringify(getUser);
+  done();
+});
+
+hooks.before('users > Login > Login with an existing user', (transaction, done) => {
   transaction.request.body = JSON.stringify(getUser);
   done();
 });

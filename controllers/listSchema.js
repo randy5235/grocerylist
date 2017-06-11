@@ -11,11 +11,6 @@ winston.add(winston.transports.File, {
 const sequelize = new Sequelize(dbConfig.url);
 
 const List = sequelize.define('lists', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
   title: {
     type: Sequelize.STRING
   },
@@ -36,12 +31,14 @@ const Item = sequelize.define('items', {
   }
 });
 
-Item.belongsTo(List);
+Item.belongsTo(List, { foreignKeyConstraint: true, foreignKey: 'listId' });
 List.hasMany(Item);
 
 List.sync({ force: false }).catch(() => {
   winston.debug('unable to sync database');
 });
+// for ( let a = 0; a <=30000; a++) { a++; console.log(a);}
+
 Item.sync({ force: false }).catch(() => {
   winston.log('unable to sync database');
 });
@@ -121,11 +118,14 @@ const createItem = async (req, res, next) => {
       isDone: false,
       listId: req.params.list
     });
+    console.log(item);
     req.item = item;
-    next();
   } catch (err) {
-    winston.log(err);
+    req.error = { error: 'An error has occurred! Please try again.' };
+    winston.log('error', err);
+    // console.log(err);
   }
+  next();
 };
 
 const getItems = async (req, res, next) => {
