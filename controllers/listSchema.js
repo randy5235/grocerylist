@@ -35,12 +35,12 @@ Item.belongsTo(List, { foreignKeyConstraint: true, foreignKey: 'listId' });
 List.hasMany(Item);
 
 List.sync({ force: false }).catch(() => {
-  winston.debug('unable to sync database');
+  winston.debug('error', 'unable to sync database');
 });
 // for ( let a = 0; a <=30000; a++) { a++; console.log(a);}
 
 Item.sync({ force: false }).catch(() => {
-  winston.log('unable to sync database');
+  winston.log('error', 'unable to sync database');
 });
 
 // force: true will drop the table if it already exists
@@ -54,7 +54,7 @@ const createList = async (req, res, next) => {
     req.list = list;
     next();
   } catch (err) {
-    winston.log(err);
+    winston.log('error', err);
   }
 };
 
@@ -72,7 +72,7 @@ const getAllLists = async (req, res, next) => {
     });
     next();
   } catch (err) {
-    winston.log(err);
+    winston.log('error', err);
   }
 };
 
@@ -88,7 +88,7 @@ const getList = async (req, res, next) => {
     }
     next();
   } catch (err) {
-    winston.log(err); // replace with logger
+    winston.log('error', err); // replace with logger
   }
 };
 
@@ -106,7 +106,7 @@ const deleteList = async (req, res, next) => {
       : { error: 'Cannot delete record' };
     next();
   } catch (err) {
-    winston.log(err);
+    winston.log('error', err);
   }
 };
 
@@ -118,12 +118,10 @@ const createItem = async (req, res, next) => {
       isDone: false,
       listId: req.params.list
     });
-    console.log(item);
     req.item = item;
   } catch (err) {
     req.error = { error: 'An error has occurred! Please try again.' };
     winston.log('error', err);
-    // console.log(err);
   }
   next();
 };
@@ -133,13 +131,12 @@ const getItems = async (req, res, next) => {
     const list = await List.findById(req.params.list, { include: [Item] });
     if (list !== null && await list.hasUser(req.user.id)) {
       req.list = list;
-    } else {
-      req.list = { error: 'Record does not exist' };
     }
-    next();
   } catch (err) {
-    winston.log(err);
+    req.error = { error: 'Record does not exist' };
+    winston.log('error', err);
   }
+  next();
 };
 
 const getItem = async (req, res, next) => {
@@ -148,14 +145,12 @@ const getItem = async (req, res, next) => {
     if (await list.hasUser(req.user.id)) {
       const item = await Item.findById(req.params.item);
       req.item = item;
-      next();
-    } else {
-      req.item = { error: 'Item does not exist' };
-      next();
     }
   } catch (err) {
-    winston.log(err);
+    req.error = { error: 'Item does not exist' };
+    winston.log('error', err);
   }
+  next();
 };
 
 const updateItem = async (req, res, next) => {
@@ -165,7 +160,7 @@ const updateItem = async (req, res, next) => {
     req.item = itemUpdate;
     next();
   } catch (err) {
-    winston.log(err);
+    winston.log('error', err);
   }
 };
 
@@ -180,7 +175,7 @@ const deleteItem = async (req, res, next) => {
       : { error: 'Cannot delete record' };
     next();
   } catch (err) {
-    winston.log(err);
+    winston.log('error', err);
   }
 };
 

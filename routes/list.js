@@ -55,13 +55,13 @@ router.route('/list/:list/item').post(hasValidSession, createItem, (req, res) =>
 router
   .route('/list/:list/item/:item')
   .get(hasValidSession, getItem, (req, res) => {
-    res.json(req.item);
+    res.json(req.item || req.error);
   })
   .patch(hasValidSession, updateItem, (req, res) => {
-    res.json(req.item);
+    res.json(req.item || req.error);
   })
   .delete(hasValidSession, deleteItem, (req, res) => {
-    res.json(req.item);
+    res.json(req.item || req.error);
   });
 // will need to add a way to add another user to the list object
 // need a way to remove a user from a list
