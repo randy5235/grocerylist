@@ -16,13 +16,16 @@ const User = sequelize.define('user', {
   },
   password: {
     type: Sequelize.STRING
+  },
+  isRegistered: {
+    type: Sequelize.BOOLEAN
   }
 });
 User.belongsToMany(List, { through: 'UserList' });
 List.belongsToMany(User, { through: 'UserList' });
 // force: true will drop the table if it already exists
-sequelize.sync({ force: false }).catch(() => {
-  winston.log('unable to sync database');
+sequelize.sync({ force: true }).catch(() => {
+  winston.log('error', 'unable to sync database');
 });
 
 const userRegister = async (req, res, next) => {
@@ -32,17 +35,23 @@ const userRegister = async (req, res, next) => {
       await bcrypt.genSalt(8)
     );
     try {
-      const user = await User.create({
-        username: req.body.username,
-        password
+      const user = await User.findOrCreate({
+        where: { username: req.body.username, isRegistered: false },
+        defaults: {
+          password,
+          isRegistered: true
+        }
       });
-      req.user = user;
+      if (user[1] === false) {
+        user[0].update({ password, isRegistered: true });
+      }
+      req.user = user[0];
       next();
     } catch (err) {
       res.json({ message: err.message });
     }
   } catch (err) {
-    winston.log(err);
+    winston.log('error', err);
   }
 };
 
@@ -70,12 +79,13 @@ const getUserByUsername = async (username, cb) => {
   try {
     const user = await User.findOne({
       where: {
-        username
+        username,
+        isRegistered: true
       }
     });
     cb(null, user);
   } catch (err) {
-    winston.log(err);
+    winston.log('error', err);
   }
 };
 
