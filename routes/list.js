@@ -1,6 +1,7 @@
 const {
   createList,
   getList,
+  updateList,
   deleteList,
   createItem,
   deleteItem,
@@ -37,6 +38,9 @@ router.route('/list').post(hasValidSession, createList, (req, res) => {
 router
   .route('/list/:list')
   .get(hasValidSession, getList, (req, res) => {
+    res.json(req.list);
+  })
+  .patch(hasValidSession, updateList, (req, res) => {
     res.json(req.list);
   })
   // .patch method needed here

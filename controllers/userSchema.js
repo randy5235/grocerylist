@@ -24,7 +24,7 @@ const User = sequelize.define('user', {
 User.belongsToMany(List, { through: 'UserList' });
 List.belongsToMany(User, { through: 'UserList' });
 // force: true will drop the table if it already exists
-sequelize.sync({ force: true }).catch(() => {
+sequelize.sync({ force: false }).catch(() => {
   winston.log('error', 'unable to sync database');
 });
 

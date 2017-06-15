@@ -91,6 +91,22 @@ const getList = async (req, res, next) => {
     winston.log('error', err); // replace with logger
   }
 };
+const updateList = async (req, res, next) => {
+  try {
+    const list = await List.findById(req.params.list);
+    if (list) {
+      if (await list.hasUser(req.user.id)) {
+        const listUpdate = await list.update(req.body);
+        req.list = listUpdate;
+      }
+    } else {
+      req.list = { error: 'Record does not exist' };
+    }
+    next();
+  } catch (err) {
+    winston.log('error', err); // replace with logger
+  }
+};
 
 // adding for integration test
 const deleteList = async (req, res, next) => {
@@ -184,6 +200,7 @@ module.exports = {
   createList,
   getAllLists,
   getList,
+  updateList,
   deleteList,
   createItem,
   getItem,
