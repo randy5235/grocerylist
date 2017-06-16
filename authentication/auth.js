@@ -1,7 +1,6 @@
 /* eslint consistent-return: "off"*/
 const bcrypt = require('bcrypt');
-const { findById } = require('../controllers/userSchema');
-const { getUserByUsername } = require('../controllers/userSchema');
+const { findById, getUserByUsername } = require('../controllers/userFunctions');
 const LocalStrategy = require('passport-local').Strategy;
 const passport = require('passport');
 

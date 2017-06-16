@@ -1,49 +1,12 @@
-const { dbConfig } = require('../config/dbConfig');
-const Sequelize = require('sequelize');
+const { List, Item, User } = require('./modelSchema');
 const winston = require('winston');
 
-winston.level = 'debug';
-winston.add(winston.transports.File, {
-  filename: `./logs/${new Date().toISOString()}.log`,
-  level: 'verbose'
-});
+// winston.level = 'debug';
+// winston.add(winston.transports.File, {
+//   filename: `./logs/${new Date().toISOString()}.log`,
+//   level: 'verbose'
+// });
 
-const sequelize = new Sequelize(dbConfig.url);
-
-const List = sequelize.define('lists', {
-  title: {
-    type: Sequelize.STRING
-  },
-  description: {
-    type: Sequelize.STRING
-  }
-});
-
-const Item = sequelize.define('items', {
-  title: {
-    type: Sequelize.STRING
-  },
-  description: {
-    type: Sequelize.STRING
-  },
-  isDone: {
-    type: Sequelize.BOOLEAN
-  }
-});
-
-Item.belongsTo(List, { foreignKeyConstraint: true, foreignKey: 'listId' });
-List.hasMany(Item);
-
-List.sync({ force: false }).catch(() => {
-  winston.debug('error', 'unable to sync database');
-});
-// for ( let a = 0; a <=30000; a++) { a++; console.log(a);}
-
-Item.sync({ force: false }).catch(() => {
-  winston.log('error', 'unable to sync database');
-});
-
-// force: true will drop the table if it already exists
 const createList = async (req, res, next) => {
   try {
     const list = await List.create({
@@ -195,8 +158,25 @@ const deleteItem = async (req, res, next) => {
   }
 };
 
+const addUserToList = async (req, res, next) => {
+  try {
+    const list = await List.findById(req.params.list);
+    if (list !== null && await list.hasUser(req.user.id)) {
+      const addNewListUser = await User.findOrCreate({ where: { username: req.body.email } });
+      if (addNewListUser[1] === true) {
+        addNewListUser[0].update({ isRegistered: false });
+      }
+      list.addUser(addNewListUser[0].id);
+    }
+    req.list = list;
+    next();
+  } catch (err) {
+    winston.log('error', err); // replace with logger
+  }
+};
+
 module.exports = {
-  List,
+  addUserToList,
   createList,
   getAllLists,
   getList,

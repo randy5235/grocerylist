@@ -1,32 +1,13 @@
-const { dbConfig } = require('../config/dbConfig');
 const bcrypt = require('bcrypt');
-const Sequelize = require('sequelize');
-const { List } = require('./listSchema');
+const { User } = require('./modelSchema');
 const winston = require('winston');
 
-winston.level = 'debug';
-// winston.add(winston.transports.File, { filename: 'somefile.log' });
+// winston.level = 'debug';
+// winston.add(winston.transports.File, {
+//   filename: `./logs/${new Date().toISOString()}.log`,
+//   level: 'verbose'
+// });
 
-const sequelize = new Sequelize(dbConfig.url);
-
-const User = sequelize.define('user', {
-  username: {
-    type: Sequelize.STRING,
-    unique: true
-  },
-  password: {
-    type: Sequelize.STRING
-  },
-  isRegistered: {
-    type: Sequelize.BOOLEAN
-  }
-});
-User.belongsToMany(List, { through: 'UserList' });
-List.belongsToMany(User, { through: 'UserList' });
-// force: true will drop the table if it already exists
-sequelize.sync({ force: false }).catch(() => {
-  winston.log('error', 'unable to sync database');
-});
 
 const userRegister = async (req, res, next) => {
   try {
@@ -102,4 +83,4 @@ const findById = async (id, cb) => {
   }
 };
 
-module.exports = { User, userRegister, getUser, getUserByUsername, findById };
+module.exports = { userRegister, getUser, getUserByUsername, findById };
