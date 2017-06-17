@@ -9,7 +9,7 @@ const router = express.Router();
 // to indicate if a user has actively registered
 // or was just invited to a list.
 router
-  .route('/register').post(userRegister, (req, res) => {
+  .route('/register').post(userRegister, passport.authenticate('local', {}), (req, res) => {
     res.json({ userId: req.user.id, username: req.user.username });
   });
 
