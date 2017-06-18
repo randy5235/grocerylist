@@ -4,10 +4,10 @@
   "description": "A basic grocery list api with authentication",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
     "dredd": "dredd apiary.apib http://127.0.0.1:3000 --sorted",
-    "lint": "eslint **/*.js"
+    "lint": "eslint **/*.js",
+    "test": "mocha test/*.js"
   },
   "author": "James Nicholas & Randy Wressell",
   "license": "GPL-3.0",
@@ -18,10 +18,12 @@
   "dependencies": {
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.1",
+    "chai": "^4.0.2",
     "dredd": "^3.4.4",
     "express": "^4.15.2",
     "express-session": "^1.15.2",
     "joi": "^10.6.0",
+    "mocha": "^3.4.2",
     "morgan": "^1.8.2",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
@@ -29,6 +31,7 @@
     "pg": "^6.2.2",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.30.4",
+    "sinon": "^2.3.4",
     "winston": "^2.3.1"
   },
   "devDependencies": {
