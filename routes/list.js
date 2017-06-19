@@ -13,26 +13,30 @@ const {
 } = require('../controllers/listFunctions');
 
 const express = require('express');
+const hasValidSession = require('../lib/hasValidSession');
 
 const router = express.Router();
 
-const hasValidSession = (req, res, next) => {
-  if (req.user) {
-    next();
-  } else {
-    res.json({ error: 'Please log in first.' });
-  }
-};
+// const hasValidSession = (req, res, next) => {
+//   if (req.user) {
+//     next();
+//   } else {
+//     res.json({ error: 'Please log in first.' });
+//   }
+// };
+
+router
+  .use('/list', hasValidSession);
 
 router
   .route('/lists')
-  .get(hasValidSession, getAllLists, (req, res) => {
+  .get(getAllLists, (req, res) => {
     res.json({ lists: req.lists });
   });
 
 router
   .route('/list')
-  .post(hasValidSession, createList, (req, res) => {
+  .post(createList, (req, res) => {
     res.json({
       listId: req.list.id,
       title: req.list.title,
@@ -42,43 +46,43 @@ router
 
 router
   .route('/list/:list')
-  .get(hasValidSession, getList, (req, res) => {
+  .get(getList, (req, res) => {
     res.json(req.list);
   })
-  .patch(hasValidSession, updateList, (req, res) => {
+  .patch(updateList, (req, res) => {
     res.json(req.list);
   })
-  .delete(hasValidSession, deleteList, (req, res) => {
+  .delete(deleteList, (req, res) => {
     res.json(req.list);
   });
 
 router
   .route('/list/:list/items')
-  .get(hasValidSession, getItems, (req, res) => {
+  .get(getItems, (req, res) => {
     res.json({ list: req.list });
   });
 
 router
   .route('/list/:list/item')
-  .post(hasValidSession, createItem, (req, res) => {
+  .post(createItem, (req, res) => {
     res.json(req.item || req.error);
   });
 
 router
   .route('/list/:list/item/:item')
-  .get(hasValidSession, getItem, (req, res) => {
+  .get(getItem, (req, res) => {
     res.json(req.item || req.error);
   })
-  .patch(hasValidSession, updateItem, (req, res) => {
+  .patch(updateItem, (req, res) => {
     res.json(req.item || req.error);
   })
-  .delete(hasValidSession, deleteItem, (req, res) => {
+  .delete(deleteItem, (req, res) => {
     res.json(req.item || req.error);
   });
 
 router
   .route('/list/:list/addUser')
-  .put(hasValidSession, addUserToList, (req, res) => {
+  .put(addUserToList, (req, res) => {
     res.json(req.list || req.error);
   });
 // will need to add a way to add another user to the list object
