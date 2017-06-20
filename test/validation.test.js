@@ -1,6 +1,5 @@
 /* eslint func-names: 0, max-len: 0, no-magic-numbers: 0 */
 
-const expect = require('chai').expect;
 const sinon = require('sinon');
 const { validateAddUser, validateRegistration, } = require('../lib/validation');
 

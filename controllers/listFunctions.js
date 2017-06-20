@@ -168,7 +168,8 @@ const addUserToList = async (req, res, next) => {
       }
       list.addUser(addNewListUser[0].id);
     }
-    req.list = list;
+    const userList = await list.getUsers().map(user => ({ username: user.username }));
+    req.list = { users: userList };
     next();
   } catch (err) {
     winston.log('error', err); // replace with logger
