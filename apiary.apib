@@ -95,24 +95,6 @@ Create a new list
 + Response 200 (application/json; charset=utf-8)
 
         {"listId": "7", "title": "value", "description": "value"}
-        
-## list/:list/addUser [/api/list/{list}/addUser]
-
-### Add a user to an existing list [POST]
-
-Add a user via their email address to an existing list, if the user exists, they are directly added. If the user
-does not currently exist, a thin user is created giving them access to the list. Once they register, they will have access.
-
-+ Request (application/json)
-
-    + Body
-
-            {"email":"test@example.com"}
-
-+ Response 200 (application/json; charset=utf-8)
-
-        {"users": []}
-
 
 ## list/:list [/api/list/{list}]
 
