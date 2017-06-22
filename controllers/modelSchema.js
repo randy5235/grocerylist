@@ -52,7 +52,7 @@ Item.belongsTo(List, { foreignKeyConstraint: true, foreignKey: 'listId' });
 List.hasMany(Item);
 
 // force: true will drop the table if it already exists
-sequelize.sync({ force: false }).catch(() => {
+sequelize.sync({ force: true }).catch(() => {
   winston.log('error', 'unable to sync database');
 });
 

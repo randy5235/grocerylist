@@ -1,6 +1,7 @@
 const express = require('express');
 const { userRegister } = require('../controllers/userFunctions');
 const passport = require('passport');
+const { validateRegistration } = require('../lib/validation');
 
 const router = express.Router();
 // register needs to be updated to check if already
@@ -9,7 +10,7 @@ const router = express.Router();
 // to indicate if a user has actively registered
 // or was just invited to a list.
 router
-  .route('/register').post(userRegister, passport.authenticate('local', {}), (req, res) => {
+  .route('/register').post(validateRegistration, userRegister, passport.authenticate('local', {}), (req, res) => {
     res.json({ userId: req.user.id, username: req.user.username });
   });
 

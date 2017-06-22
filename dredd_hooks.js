@@ -7,8 +7,8 @@ const hooks = require('hooks');
 const stash = {};
 
 function User() {
-  this.username = `test_${Date.now()}`;
-  this.password = 'password';
+  this.username = `test_${Date.now()}@example.org`;
+  this.password = 'Password!23';
   return { username: this.username, password: this.password };
 }
 
