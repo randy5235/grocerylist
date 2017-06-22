@@ -33,6 +33,14 @@ hooks.before('lists > lists > Send back a collection of all lists that a user ha
   transaction.request.headers.Cookie = stash.cookie;
   done();
 });
+
+hooks.before('lists > list/:list/addUser > Add a user by email to a specific list', (transaction, done) => {
+  transaction.request.headers.Cookie = stash.cookie;
+  transaction.fullPath = `/api/list/${stash.list}/addUser`;
+  transaction.request.uri = `/api/list/${stash.list}/addUser`;
+  done();
+});
+
 hooks.before('lists > list > Create a new list', (transaction, done) => {
   transaction.request.headers.Cookie = stash.cookie;
   done();

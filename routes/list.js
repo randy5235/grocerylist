@@ -82,7 +82,7 @@ router
 
 router
   .route('/list/:list/addUser')
-  .put(addUserToList, (req, res) => {
+  .post(addUserToList, (req, res) => {
     res.json(req.list || req.error);
   });
 // will need to add a way to add another user to the list object

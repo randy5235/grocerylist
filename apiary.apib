@@ -96,6 +96,31 @@ Create a new list
 
         {"listId": "7", "title": "value", "description": "value"}
 
+## list/:list/addUser [/api/list/{list}/addUser]
+
+### Add a user by email to a specific list [POST]
+
+Adds a user by email address to a specific list, if the user doesn't exist, a thin user is created
+
++ Parameters
+
+    + list: `7` (number, required) - Id of list.
+
++ Request (application/json)
+
+    + Headers
+
+            authorized: true
+
+    + Body
+
+                { "email": "test@example.org" }
+
++ Response 200 (application/json; charset=utf-8)
+
+        { "users": [] }
+
+
 ## list/:list [/api/list/{list}]
 
 ### Send back a specific lists that a user has access to [GET]
