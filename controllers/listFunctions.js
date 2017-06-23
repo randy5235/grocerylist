@@ -170,6 +170,7 @@ const addUserToList = async (req, res, next) => {
   try {
     const list = await List.findById(req.params.list);
     if (list !== null && await list.hasUser(req.user.id)) {
+      req.body.email = req.body.email.toLowerCase();
       const addNewListUser = await User.findOrCreate({ where: { username: req.body.email } });
       if (addNewListUser[1] === true) {
         addNewListUser[0].update({ isRegistered: false });

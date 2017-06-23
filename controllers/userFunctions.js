@@ -16,6 +16,7 @@ const userRegister = async (req, res, next) => {
       await bcrypt.genSalt(8)
     );
     try {
+      req.body.username = req.body.username.toLowerCase();
       const user = await User.findOrCreate({
         where: { username: req.body.username, isRegistered: false },
         defaults: {
