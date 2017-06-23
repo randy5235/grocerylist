@@ -75,12 +75,20 @@ const updateList = async (req, res, next) => {
 const deleteList = async (req, res, next) => {
   /* eslint no-unused-vars: "off" */
   try {
-    const items = await List.findById(req.params.list, { include: [Item] });
-    const deletedItems = await items.items.map(item => item.destroy());
-    const list = await List.destroy({
-      where: { id: req.params.list }
-    });
-    req.list = list
+    let deletedList = false;
+    const list = await List.findById(req.params.list, { include: [Item] });
+    if (list !== null && await list.hasUser(req.user.id)) {
+      const numberOfUsers = await list.getUsers();
+      if (numberOfUsers.length === 1) {
+        const deletedItems = await list.items.map(item => item.destroy());
+        deletedList = await List.destroy({
+          where: { id: req.params.list }
+        });
+      } else {
+        deletedList = await list.removeUser(req.user.id);
+      }
+    }
+    req.list = deletedList
       ? { id: req.params.list, message: 'Record successfully deleted', deleted: true }
       : { error: 'Cannot delete record' };
     next();
@@ -166,10 +174,10 @@ const addUserToList = async (req, res, next) => {
       if (addNewListUser[1] === true) {
         addNewListUser[0].update({ isRegistered: false });
       }
-      list.addUser(addNewListUser[0].id);
+      await list.addUser(addNewListUser[0].id);
+      const userList = await list.getUsers().map(user => ({ username: user.username }));
+      req.list = { users: userList };
     }
-    const userList = await list.getUsers().map(user => ({ username: user.username }));
-    req.list = { users: userList };
     next();
   } catch (err) {
     winston.log('error', err); // replace with logger
