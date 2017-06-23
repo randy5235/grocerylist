@@ -13,7 +13,7 @@ const createList = async (req, res, next) => {
       title: req.body.title,
       description: req.body.description
     });
-    list.addUser(req.user.id);
+    await list.addUser(req.user.id);
     req.list = list;
     next();
   } catch (err) {
