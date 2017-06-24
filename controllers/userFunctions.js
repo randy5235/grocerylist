@@ -57,7 +57,7 @@ const getUser = async (req, res, next) => {
   }
 };
 
-const getUserByUsername = async (username, cb) => {
+const getUserByUsername = async (username) => {
   try {
     const user = await User.findOne({
       where: {
@@ -65,7 +65,7 @@ const getUserByUsername = async (username, cb) => {
         isRegistered: true
       }
     });
-    cb(null, user);
+    return user;
   } catch (err) {
     winston.log('error', err);
   }

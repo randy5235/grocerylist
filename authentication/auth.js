@@ -10,16 +10,13 @@ const compare = async (reqPassword, userPassword) => {
   return isValid;
 };
 
-passport.use('local', new LocalStrategy((username, password, done) => {
-  getUserByUsername(username, (err, user) => {
-    if (err) { return done(err); }
-    if (!user) { return done(null, false); }
-    compare(password, user.password)
-      .then((isValid) => {
-        if (isValid !== true) { return done(null, false); }
-        return done(null, user);
-      });
-  });
+passport.use('local', new LocalStrategy(async (username, password, done) => {
+  const user = await getUserByUsername(username);
+  if (compare(password, user.password)) {
+    return done(null, user);
+  } else {
+    return done(null, false);
+  }
 }));
 
 passport.serializeUser((user, cb) => {
