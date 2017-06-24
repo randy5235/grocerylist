@@ -17,16 +17,8 @@ const hasValidSession = require('../lib/hasValidSession');
 
 const router = express.Router();
 
-// const hasValidSession = (req, res, next) => {
-//   if (req.user) {
-//     next();
-//   } else {
-//     res.json({ error: 'Please log in first.' });
-//   }
-// };
-
 router
-  .use('/list', hasValidSession);
+  .use('/lists?', hasValidSession);
 
 router
   .route('/lists')
@@ -85,8 +77,5 @@ router
   .post(addUserToList, (req, res) => {
     res.json(req.list || req.error);
   });
-// will need to add a way to add another user to the list object
-// need a way to remove a user from a list
-// (check if user is last user on list and delete list if true)
 
 module.exports = router;
