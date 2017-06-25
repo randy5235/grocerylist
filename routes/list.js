@@ -18,7 +18,7 @@ const hasValidSession = require('../lib/hasValidSession');
 const router = express.Router();
 
 router
-  .use('/lists?', hasValidSession);
+  .use(hasValidSession);
 
 router
   .route('/lists')
