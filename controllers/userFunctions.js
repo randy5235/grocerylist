@@ -8,7 +8,6 @@ const winston = require('winston');
 //   level: 'verbose'
 // });
 
-
 const userRegister = async (req, res, next) => {
   try {
     const password = await bcrypt.hash(
@@ -39,6 +38,7 @@ const userRegister = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
   try {
+    req.body.username = req.body.username.toLowerCase();
     const user = await User.findOne({
       username: req.body.username
     });
@@ -62,7 +62,7 @@ const getUserByUsername = async (username) => {
   try {
     user = await User.findOne({
       where: {
-        username,
+        username: username.toLowerCase(),
         isRegistered: true
       }
     });

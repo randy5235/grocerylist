@@ -23,7 +23,7 @@ router
 router
   .route('/lists')
   .get(getAllLists, (req, res) => {
-    res.json({ lists: req.lists });
+    res.json({ lists: res.locals.lists });
   });
 
 router

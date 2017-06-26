@@ -25,7 +25,7 @@ const getAllLists = async (req, res, next) => {
   try {
     const user = req.user;
     const lists = await user.getLists();
-    req.lists = lists.map((list) => {
+    res.locals.lists = lists.map((list) => {
       const conciseList = {
         id: list.id,
         title: list.title,
