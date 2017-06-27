@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const { findById, getUserByUsername } = require('../controllers/userFunctions');
 const LocalStrategy = require('passport-local').Strategy;
 const passport = require('passport');
+const winston = require('winston');
 
 
 const compare = async (reqPassword, userPassword) => {
@@ -11,11 +12,11 @@ const compare = async (reqPassword, userPassword) => {
 };
 
 passport.use('local', new LocalStrategy(async (username, password, done) => {
-  const user = await getUserByUsername(username);
-  if (compare(password, user.password)) {
-    return done(null, user);
-  } else {
-    return done(null, false);
+  try {
+    const user = await getUserByUsername(username);
+    return done(null, await compare(password, user.password) ? user : false);
+  } catch (err) {
+    winston.log('error', err);
   }
 }));
 

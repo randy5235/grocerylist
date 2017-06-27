@@ -29,7 +29,8 @@ const getAllLists = async (req, res, next) => {
       const conciseList = {
         id: list.id,
         title: list.title,
-        description: list.description
+        description: list.description,
+        updated: list.updatedAt
       };
       return conciseList;
     });
