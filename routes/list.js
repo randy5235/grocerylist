@@ -39,7 +39,7 @@ router
 router
   .route('/list/:list')
   .get(getList, (req, res) => {
-    res.json(req.list);
+    res.json(res.locals.list);
   })
   .patch(updateList, (req, res) => {
     res.json(req.list);

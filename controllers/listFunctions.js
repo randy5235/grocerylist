@@ -44,10 +44,10 @@ const getList = async (req, res, next) => {
     const list = await List.findById(req.params.list);
     if (list) {
       if (await list.hasUser(req.user.id)) {
-        req.list = list;
+        res.locals.list = list;
       }
     } else {
-      req.list = { error: 'Record does not exist' };
+      res.locals.list = { error: 'Record does not exist' };
     }
     next();
   } catch (err) {
