@@ -14,7 +14,7 @@ const createList = async (req, res, next) => {
       description: req.body.description
     });
     await list.addUser(req.user.id);
-    req.list = list;
+    res.locals.list = list;
     next();
   } catch (err) {
     winston.log('error', err);

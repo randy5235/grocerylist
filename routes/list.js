@@ -30,9 +30,9 @@ router
   .route('/list')
   .post(createList, (req, res) => {
     res.json({
-      listId: req.list.id,
-      title: req.list.title,
-      description: req.list.description
+      listId: res.locals.list.id,
+      title: res.locals.list.title,
+      description: res.locals.list.description
     });
   });
 
