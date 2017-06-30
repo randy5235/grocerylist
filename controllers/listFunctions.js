@@ -61,10 +61,10 @@ const updateList = async (req, res, next) => {
     if (list) {
       if (await list.hasUser(req.user.id)) {
         const listUpdate = await list.update(req.body);
-        req.list = listUpdate;
+        res.locals.list = listUpdate;
       }
     } else {
-      req.list = { error: 'Record does not exist' };
+      res.locals.list = { error: 'Record does not exist' };
     }
     next();
   } catch (err) {

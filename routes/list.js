@@ -42,7 +42,7 @@ router
     res.json(res.locals.list);
   })
   .patch(updateList, (req, res) => {
-    res.json(req.list);
+    res.json(res.locals.list);
   })
   .delete(deleteList, (req, res) => {
     res.json(req.list);
