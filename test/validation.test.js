@@ -1,7 +1,9 @@
 /* eslint func-names: 0, max-len: 0, no-magic-numbers: 0 */
+/* eslint no-unused-expressions: 0, max-len: 0, no-magic-numbers: 0 */
 
+const expect = require('chai').expect;
 const sinon = require('sinon');
-const { validateAddUser, validateRegistration, } = require('../lib/validation');
+const { validateAddUser, validateRegistration, addUserSchema, registrationSchema } = require('../lib/validation');
 
 const validEmailBody = {
   email: 'test@example.org'
@@ -25,6 +27,22 @@ describe('validateAddUser', () => {
   it('Validates the email address of an addUser call', () => {
     validateAddUser({ body: validEmailBody }, null, next);
     sinon.assert.called(next);
+  });
+});
+
+describe('addUserSchema', () => {
+  it('Validates the email address of an addUser call', () => {
+    const checkUserSchema = addUserSchema.validate(validEmailBody);
+    expect(checkUserSchema.error).to.be.null;
+    // sinon.assert.called(next);
+  });
+});
+
+describe('registrationSchemA', () => {
+  it('Validates the payload need to add a user ', () => {
+    const checkUserSchema = registrationSchema.validate(validRegistrationBody);
+    expect(checkUserSchema.error).to.be.null;
+    // sinon.assert.called(next);
   });
 });
 
