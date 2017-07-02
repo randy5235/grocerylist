@@ -75,7 +75,7 @@ router
 router
   .route('/list/:list/addUser')
   .post(addUserToList, (req, res) => {
-    res.json(req.list || req.error);
+    res.json(res.locals.list || req.error);
   });
 
 module.exports = router;

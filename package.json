@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "dredd": "dredd apiary.apib http://127.0.0.1:3000 --sorted",
+    "dredd": "dredd apiary.apib http://localhost:3000 --sorted",
     "lint": "eslint **/*.js",
     "test": "mocha test/*.js"
   },

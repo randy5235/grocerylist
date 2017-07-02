@@ -178,7 +178,7 @@ const addUserToList = async (req, res, next) => {
       }
       await list.addUser(addNewListUser[0].id);
       const userList = await list.getUsers().map(user => ({ username: user.username }));
-      req.list = { users: userList };
+      res.locals.list = { users: userList };
     }
     next();
   } catch (err) {
