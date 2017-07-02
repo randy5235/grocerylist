@@ -132,10 +132,10 @@ const getItem = async (req, res, next) => {
     const list = await List.findById(req.params.list);
     if (await list.hasUser(req.user.id)) {
       const item = await Item.findById(req.params.item);
-      req.item = item;
+      res.locals.item = item;
     }
   } catch (err) {
-    req.error = { error: 'Item does not exist' };
+    res.locals.error = { error: 'Item does not exist' };
     winston.log('error', err);
   }
   next();

@@ -63,7 +63,7 @@ router
 router
   .route('/list/:list/item/:item')
   .get(getItem, (req, res) => {
-    res.json(req.item || req.error);
+    res.json(res.locals.item || res.locals.error);
   })
   .patch(updateItem, (req, res) => {
     res.json(req.item || req.error);
