@@ -158,7 +158,7 @@ const deleteItem = async (req, res, next) => {
     const item = await Item.destroy({
       where: { id: req.params.item }
     });
-    req.item = item
+    req.local.item = item
       ? { message: 'Record successfully deleted' }
       : { error: 'Cannot delete record' };
     next();

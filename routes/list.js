@@ -69,7 +69,7 @@ router
     res.json(req.item || req.error);
   })
   .delete(deleteItem, (req, res) => {
-    res.json(req.item || req.error);
+    res.json(res.local.item || req.error);
   });
 
 router
