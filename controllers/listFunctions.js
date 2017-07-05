@@ -89,7 +89,7 @@ const deleteList = async (req, res, next) => {
         deletedList = await list.removeUser(req.user.id);
       }
     }
-    req.list = deletedList
+    res.locals.list = deletedList
       ? { id: req.params.list, message: 'Record successfully deleted', deleted: true }
       : { error: 'Cannot delete record' };
     next();
