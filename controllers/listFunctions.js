@@ -106,9 +106,9 @@ const createItem = async (req, res, next) => {
       isDone: false,
       listId: req.params.list
     });
-    req.item = item;
+    res.locals.item = item;
   } catch (err) {
-    req.error = { error: 'An error has occurred! Please try again.' };
+    res.locals.error = { error: 'An error has occurred! Please try again.' };
     winston.log('error', err);
   }
   next();

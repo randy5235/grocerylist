@@ -57,7 +57,7 @@ router
 router
   .route('/list/:list/item')
   .post(createItem, (req, res) => {
-    res.json(req.item || req.error);
+    res.json(res.locals.item || res.locals.error);
   });
 
 router
