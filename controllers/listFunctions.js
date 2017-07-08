@@ -145,7 +145,7 @@ const updateItem = async (req, res, next) => {
   try {
     const item = await Item.findById(req.params.item);
     const itemUpdate = await item.update(req.body);
-    req.item = itemUpdate;
+    res.locals.item = itemUpdate;
     next();
   } catch (err) {
     winston.log('error', err);

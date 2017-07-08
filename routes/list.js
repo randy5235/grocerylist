@@ -66,7 +66,7 @@ router
     res.json(res.locals.item || res.locals.error);
   })
   .patch(updateItem, (req, res) => {
-    res.json(req.item || req.error);
+    res.json(res.locals.item || res.locals.error);
   })
   .delete(deleteItem, (req, res) => {
     res.json(res.local.item || req.error);
