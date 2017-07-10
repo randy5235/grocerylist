@@ -1,11 +1,6 @@
 const { List, Item, User } = require('./modelSchema');
 const winston = require('winston');
 
-// winston.level = 'debug';
-// winston.add(winston.transports.File, {
-//   filename: `./logs/${new Date().toISOString()}.log`,
-//   level: 'verbose'
-// });
 
 const createList = async (req, res, next) => {
   try {
