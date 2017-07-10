@@ -14,6 +14,11 @@ const validRegistrationBody = {
   password: 'Password!23'
 };
 
+const invalidRegistrationBody = {
+  username: 'test@example.org',
+  password: 'password!23'
+};
+
 const next = sinon.spy();
 
 describe('Payload Validation', () => {
@@ -39,9 +44,17 @@ describe('addUserSchema', () => {
 });
 
 describe('registrationSchemA', () => {
-  it('Validates the payload need to add a user ', () => {
+  it('Validates the payload needed to add a user ', () => {
     const checkUserSchema = registrationSchema.validate(validRegistrationBody);
     expect(checkUserSchema.error).to.be.null;
+    // sinon.assert.called(next);
+  });
+});
+
+describe('registrationSchemA', () => {
+  it('Failes to Validates a bad  payload needed to add a user ', () => {
+    const checkUserSchema = registrationSchema.validate(invalidRegistrationBody);
+    expect(checkUserSchema.error).not.to.be.null;
     // sinon.assert.called(next);
   });
 });
