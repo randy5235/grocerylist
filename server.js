@@ -20,7 +20,6 @@ require('./authentication/auth');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// app.use(logger('dev'));
 app.use(session(Object.assign({ store: new RedisStore(redisOptions) }, sessionSecret)));
 app.use(passport.initialize());
 app.use(passport.session());
