@@ -33,6 +33,11 @@ To test the basic API against the API documentation:
 ```npm run dredd```
 
 This will start the project and run API blueprint tests against it.
+
+To run the unit tests:
+
+```npm run test```
+
 <!---
 
 ## Contributors
