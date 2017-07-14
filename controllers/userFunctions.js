@@ -2,12 +2,6 @@ const bcrypt = require('bcrypt');
 const { User } = require('./modelSchema');
 const winston = require('winston');
 
-// winston.level = 'debug';
-// winston.add(winston.transports.File, {
-//   filename: `./logs/${new Date().toISOString()}.log`,
-//   level: 'verbose'
-// });
-
 const userRegister = async (req, res, next) => {
   try {
     const password = await bcrypt.hash(
