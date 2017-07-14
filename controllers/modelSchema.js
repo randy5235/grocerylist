@@ -1,4 +1,3 @@
-
 const { dbConfig } = require('../config/dbConfig');
 const Sequelize = require('sequelize');
 const winston = require('winston');
@@ -8,7 +7,6 @@ winston.add(winston.transports.File, {
   filename: `./logs/${new Date().toISOString()}.log`,
   level: 'verbose'
 });
-// winston.add(winston.transports.File, { filename: 'somefile.log' });
 
 const sequelize = new Sequelize(dbConfig.url);
 
