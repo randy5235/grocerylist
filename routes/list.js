@@ -51,7 +51,7 @@ router
 router
   .route('/list/:list/items')
   .get(getItems, (req, res) => {
-    res.json({ list: res.locals.list });
+    res.json(res.locals.list ? { list: res.locals.list } : res.locals.error);
   });
 
 router

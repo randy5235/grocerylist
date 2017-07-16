@@ -116,7 +116,7 @@ const getItems = async (req, res, next) => {
       res.locals.list = list;
     }
   } catch (err) {
-    req.error = { error: 'Record does not exist' };
+    res.locals.error = { error: 'Record does not exist' };
     winston.log('error', err);
   }
   next();
