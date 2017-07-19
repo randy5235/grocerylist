@@ -15,7 +15,6 @@ const sessionSecret = {
   secret: config.sessionSecret.secret,
   resave: config.sessionSecret.resave,
   saveUninitialized: config.sessionSecret.saveUninitialized
-
 };
 
 module.exports = { dbConfig, sessionSecret };
