@@ -1,6 +1,6 @@
-FROM: node:10
+FROM node:10
 
-EXPOSE: 3000
+EXPOSE 3000
 
 RUN npm i 
 
