@@ -1,13 +1,12 @@
-const bcrypt = require('bcrypt');
-const { User } = require('./modelSchema');
-const winston = require('winston');
+const bcrypt = require("bcryptjs");
+const { User } = require("./modelSchema");
+const winston = require("winston");
 
 const userRegister = async (req, res, next) => {
   try {
-    const password = await bcrypt.hash(
-      req.body.password,
-      await bcrypt.genSalt(8)
-    );
+    const salt = await bcrypt.genSalt(8);
+    console.log("here", req.body);
+    const password = await bcrypt.hash(req.body.password, salt);
     try {
       req.body.username = req.body.username.toLowerCase();
       const user = await User.findOrCreate({
@@ -21,12 +20,14 @@ const userRegister = async (req, res, next) => {
         user[0].update({ password, isRegistered: true });
       }
       req.user = user[0];
+      console.log("user: ", user);
       next();
     } catch (err) {
       res.json({ message: err.message });
     }
   } catch (err) {
-    winston.log('error', err);
+    console.log("here2");
+    winston.log("error", err);
   }
 };
 
@@ -44,14 +45,14 @@ const getUser = async (req, res, next) => {
       req.user = user;
       next();
     } else {
-      res.json({ error: 'Username or Password is incorrect' });
+      res.json({ error: "Username or Password is incorrect" });
     }
   } catch (err) {
     winston.log(err);
   }
 };
 
-const getUserByUsername = async (username) => {
+const getUserByUsername = async username => {
   let user = false;
   try {
     user = await User.findOne({
@@ -61,7 +62,7 @@ const getUserByUsername = async (username) => {
       }
     });
   } catch (err) {
-    winston.log('error', err);
+    winston.log("error", err);
   }
   return user;
 };

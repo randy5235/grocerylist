@@ -16,7 +16,7 @@
     "url": "https://github.com/randy5235/grocerylist.git"
   },
   "dependencies": {
-    "bcrypt": "^1.0.2",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.1",
     "chai": "^4.0.2",
     "connect-redis": "^3.3.0",
