@@ -5,9 +5,11 @@ const logger = require('morgan');
 const passport = require('passport');
 const router = require('./routes');
 const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
-const redisOptions = require('./config/redis.json');
+// const RedisStore = require('connect-redis')(session);
+// const client = redis.createClient();
+// const redisOptions = { host: 'localhost', port: 6379, client: client,ttl :  260};
 const winston = require('winston');
+const { MemoryStore } = require('express-session');
 
 winston.stream = {
   write: (message) => {
@@ -18,9 +20,9 @@ winston.stream = {
 require('./authentication/auth');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
-app.use(session(Object.assign({ store: new RedisStore(redisOptions) }, sessionSecret)));
+app.use(session(sessionSecret));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json());
