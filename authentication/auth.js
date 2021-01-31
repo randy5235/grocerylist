@@ -1,4 +1,4 @@
-/* eslint consistent-return: "off"*/
+/* eslint consistent-return: "off" */
 const bcrypt = require('bcryptjs');
 const { findById, getUserByUsername } = require('../controllers/userFunctions');
 const LocalStrategy = require('passport-local').Strategy;
