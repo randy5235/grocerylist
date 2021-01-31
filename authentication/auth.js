@@ -1,9 +1,9 @@
 /* eslint consistent-return: "off"*/
-const bcrypt = require("bcryptjs");
-const { findById, getUserByUsername } = require("../controllers/userFunctions");
-const LocalStrategy = require("passport-local").Strategy;
-const passport = require("passport");
-const winston = require("winston");
+const bcrypt = require('bcryptjs');
+const { findById, getUserByUsername } = require('../controllers/userFunctions');
+const LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport');
+const winston = require('winston');
 
 const compare = async (reqPassword, userPassword) => {
   const isValid = await bcrypt.compare(reqPassword, userPassword);
@@ -11,7 +11,7 @@ const compare = async (reqPassword, userPassword) => {
 };
 
 passport.use(
-  "local",
+  'local',
   new LocalStrategy(async (username, password, done) => {
     try {
       const user = await getUserByUsername(username);
@@ -20,7 +20,7 @@ passport.use(
         (await compare(password, user.password)) ? user : false
       );
     } catch (err) {
-      winston.log("error", err);
+      winston.log('error', err);
     }
   })
 );

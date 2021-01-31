@@ -1,10 +1,21 @@
 ## Synopsis
 
-This repository provides a REST API service for building a grocery list like application that allows you to share lists between users. Targeted for node 7.10.0 or higher. Using a postgres cloud based backend. Currently hosted on elephantsql.com. Place url in config/db.json as follows:
-```
+This repository provides a REST API service for building a grocery list like application that allows you to share lists between users. Targeted for node 7.10.0 or higher. Using Docker-compose to stand up postgresql in the local environment. Hard-coded credentials on purpose for demonstration purposes.
+
+
+./config/db.json 
+```json
 {
-  "URL":"postgres://USERNAME:password@HOST:port/databaseName",
-  "sessionSecret":"placeyoursessionsecrether"
+  "URL": "postgres://root:example@db:5432/grocery_list",
+  "user": {
+      "database": "test",
+      "password": "example"
+  },
+  "sessionSecret": {
+    "secret": "changeMeBeforeUse",
+    "resave": false,
+    "saveUninitialized": true
+  }
 }
 ```
 <!--- ## Code Example
@@ -28,21 +39,20 @@ Depending on the size of the project, if it is small and simple enough the refer
 
 Describe and show how to run the tests with code examples.
 
-To test the basic API against the API documentation:
+<!-- To test the basic API against the API documentation:
 
 ```npm run dredd```
 
-This will start the project and run API blueprint tests against it.
+This will start the project and run API blueprint tests against it. -->
 
 To run the unit tests:
 
 ```npm run test```
 
-<!---
+-
 
 ## Contributors
-
-Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable. --->
+Randy Wressell
 
 ## License
 Licensed GPLv3 2017

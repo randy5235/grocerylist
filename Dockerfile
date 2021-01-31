@@ -2,9 +2,9 @@ FROM node:10
 
 EXPOSE 3000
 
-RUN npm i 
+# RUN npm i 
 
-RUN mkdir /opt/app 
+# RUN mkdir /opt/app 
 WORKDIR /opt/app
 
 COPY package*.json ./
