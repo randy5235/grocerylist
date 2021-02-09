@@ -21,7 +21,10 @@ require('./authentication/auth');
 
 const app = express();
 const port = process.env.PORT || 5000;
-
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 app.use(session(sessionSecret));
 app.use(passport.initialize());
 app.use(passport.session());

@@ -1,6 +1,6 @@
 FROM node:10
 
-EXPOSE 3000
+EXPOSE 5000
 
 # RUN npm i 
 
