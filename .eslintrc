@@ -1,9 +1,23 @@
 {
-  "extends": "airbnb-base",
+  "extends": [
+    "airbnb-base",
+    "eslint-config-prettier",
+    "prettier"
+  ],
   "rules": {
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true
+      }
+    ]
   },
   "env":{
     "mocha": true
-  }
+  },
+  "plugins": [
+    "eslint-plugin-prettier",
+    "prettier"
+  ]
 }

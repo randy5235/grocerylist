@@ -7,6 +7,7 @@
   "sessionSecret": {
     "secret": "changeMeBeforeUse",
     "resave": false,
-    "saveUninitialized": true
+    "saveUninitialized": true,
+    "key": "SessionId"
   }
 }
