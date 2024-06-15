@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:18.20.3
 
 EXPOSE 5000
 
@@ -8,7 +8,7 @@ EXPOSE 5000
 WORKDIR /opt/app
 
 COPY package*.json ./
-RUN npm install --no-optional && npm cache clean --force
+RUN npm install --legacy-peer-deps
 COPY . .
 
-CMD ["node", "server.js"]
+CMD ["npx", "ts-node", "server.ts"]

@@ -2,10 +2,10 @@
   "name": "grocerylist",
   "version": "0.0.1",
   "description": "A basic grocery list api with authentication",
-  "main": "server.js",
+  "main": "server.ts",
   "scripts": {
     "build": "tsc -p .",
-    "dev": "nodemon server.js",
+    "dev": "nodemon server.ts",
     "dredd": "npx dredd apiary.apib http://localhost:5000 --sorted",
     "lint": "eslint **/*.js",
     "test": "mocha test/*.js"

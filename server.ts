@@ -60,3 +60,4 @@ app.use(bodyParser.json());
 app.use(logger('combined', { stream: winston.stream }));
 app.use('/api', router);
 app.listen(port);
+console.log(`Server listening on port ${port}`);
