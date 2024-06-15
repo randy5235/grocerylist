@@ -1,6 +1,7 @@
-const { dbConfig } = require('../config/dbConfig');
-const Sequelize = require('sequelize');
-const winston = require('winston');
+import { dbConfig } from '../config/dbConfig';
+const { Sequelize } = require('sequelize');
+import type { ModelDefined, Optional } from 'sequelize';
+import winston from 'winston';
 
 winston.level = 'debug';
 winston.add(new winston.transports.File({
@@ -31,7 +32,20 @@ const Item = sequelize.define('items', {
   }
 });
 
-const User = sequelize.define('user', {
+export interface UserAttributes {
+  id: string;
+  username: string;
+  password: string;
+  isRegistered: boolean;
+}
+type UserCreationAttributes = Optional<UserAttributes, 'id'>;
+
+const User: ModelDefined<UserAttributes, UserCreationAttributes> = sequelize.define('user', {
+  id: {
+    type: Sequelize.UUID,
+    primaryKey: true,
+    defaultValue: Sequelize.UUIDV4
+  },
   username: {
     type: Sequelize.STRING,
     unique: true
@@ -54,4 +68,4 @@ sequelize.sync({ force: false }).catch(() => {
   winston.log('error', 'unable to sync database');
 });
 
-module.exports = { User, List, Item };
+export { User, List, Item };

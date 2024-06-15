@@ -3,7 +3,8 @@
 
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const { validateAddUser, validateRegistration, addUserSchema, registrationSchema } = require('../lib/validation');
+import { validateAddUser, validateRegistration, addUserSchema, registrationSchema } from '../lib/validation';
+import { Request, Response } from 'express';
 
 const validEmailBody = {
   email: 'test@example.org'
@@ -23,14 +24,15 @@ const next = sinon.spy();
 
 describe('Payload Validation', () => {
   it('Validates the email address of register call', () => {
-    validateRegistration({ body: validRegistrationBody }, null, next);
+    const req = { body: validRegistrationBody };
+    validateRegistration((req as Request), ({} as Response), next);
     sinon.assert.called(next);
   });
 });
 
 describe('validateAddUser', () => {
   it('Validates the email address of an addUser call', () => {
-    validateAddUser({ body: validEmailBody }, null, next);
+    validateAddUser(({ body: validRegistrationBody } as Request), ({} as Response), next);
     sinon.assert.called(next);
   });
 });
@@ -52,7 +54,7 @@ describe('registrationSchemA', () => {
 });
 
 describe('registrationSchemA', () => {
-  it('Failes to Validates a bad  payload needed to add a user ', () => {
+  it('Fails to Validates a bad  payload needed to add a user ', () => {
     const checkUserSchema = registrationSchema.validate(invalidRegistrationBody);
     expect(checkUserSchema.error).not.to.be.null;
     // sinon.assert.called(next);

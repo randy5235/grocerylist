@@ -1,4 +1,5 @@
 const joi = require('joi');
+import type { Request, Response, NextFunction } from 'express';
 
 const passwordMinimumRequirements = /^(?=.*[0-9])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.*[a-z])(?=.*[A-Z])/;
 const passwordAllowedChars = /^[0-9a-zA-Z !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]{8,32}$/;
@@ -17,7 +18,7 @@ const addUserSchema = joi.object().keys({
   email: joi.string().email(),
 });
 
-const validateRegistration = (req, res, next) => {
+const validateRegistration = (req: Request, res: Response, next: NextFunction) => {
   const passedValidation = registrationSchema.validate(req.body);
   if (!passedValidation.error) {
     next();
@@ -29,7 +30,7 @@ const validateRegistration = (req, res, next) => {
   }
 };
 
-const validateAddUser = (req, res, next) => {
+const validateAddUser = (req: Request, res: Response, next: NextFunction) => {
   const passedValidation = addUserSchema.validate(req.body);
   if (!passedValidation.error) {
     next();
@@ -38,7 +39,7 @@ const validateAddUser = (req, res, next) => {
   }
 };
 
-module.exports = {
+export {
   validateAddUser,
   validateRegistration,
   addUserSchema,

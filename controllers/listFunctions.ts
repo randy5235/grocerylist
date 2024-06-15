@@ -1,14 +1,16 @@
-const { List, Item, User } = require('./modelSchema');
+import Model from 'sequelize/types/model';
+import { List, Item, User, UserAttributes } from './modelSchema';
 const winston = require('winston');
+import type { Request, Response, NextFunction, RequestHandler } from 'express';
 
 
-const createList = async (req, res, next) => {
+const createList = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const list = await List.create({
       title: req.body.title,
       description: req.body.description
     });
-    await list.addUser(req.user.id);
+    await list.addUser((req?.user as UserAttributes)?.id);
     res.locals.list = list;
     next();
   } catch (err) {
@@ -16,11 +18,11 @@ const createList = async (req, res, next) => {
   }
 };
 
-const getAllLists = async (req, res, next) => {
+const getAllLists = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = req.user;
-    const lists = await user.getLists();
-    res.locals.lists = lists.map((list) => {
+    const lists = await (user as unknown as any)?.getLists();
+    res.locals.lists = lists.map((list: any) => {
       const conciseList = {
         id: list.id,
         title: list.title,
@@ -32,14 +34,15 @@ const getAllLists = async (req, res, next) => {
     next();
   } catch (err) {
     winston.log('error', err);
+    next(err);
   }
 };
 
-const getList = async (req, res, next) => {
+const getList = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const list = await List.findById(req.params.list);
     if (list) {
-      if (await list.hasUser(req.user.id)) {
+      if (await list.hasUser((req?.user as UserAttributes)?.id)) {
         res.locals.list = list;
       }
     } else {
@@ -50,11 +53,11 @@ const getList = async (req, res, next) => {
     winston.log('error', err); // replace with logger
   }
 };
-const updateList = async (req, res, next) => {
+const updateList = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const list = await List.findById(req.params.list);
     if (list) {
-      if (await list.hasUser(req.user.id)) {
+      if (await list.hasUser((req?.user as UserAttributes)?.id)) {
         const listUpdate = await list.update(req.body);
         res.locals.list = listUpdate;
       }
@@ -68,20 +71,21 @@ const updateList = async (req, res, next) => {
 };
 
 // adding for integration test
-const deleteList = async (req, res, next) => {
+const deleteList = async (req: Request, res: Response, next: NextFunction) => {
   /* eslint no-unused-vars: "off" */
   try {
+    const { id } = req.user as UserAttributes;
     let deletedList = false;
     const list = await List.findById(req.params.list, { include: [Item] });
-    if (list !== null && await list.hasUser(req.user.id)) {
+    if (list !== null && await list.hasUser((req?.user as UserAttributes)?.id)) {
       const numberOfUsers = await list.getUsers();
       if (numberOfUsers.length === 1) {
-        const deletedItems = await list.items.map(item => item.destroy());
+        const deletedItems = await list.items.map((item: { destroy: () => any; }) => item.destroy());
         deletedList = await List.destroy({
           where: { id: req.params.list }
         });
       } else {
-        deletedList = await list.removeUser(req.user.id);
+        deletedList = await list.removeUser(id);
       }
     }
     res.locals.list = deletedList
@@ -93,7 +97,7 @@ const deleteList = async (req, res, next) => {
   }
 };
 
-const createItem = async (req, res, next) => {
+const createItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const item = await Item.create({
       title: req.body.title,
@@ -109,10 +113,11 @@ const createItem = async (req, res, next) => {
   next();
 };
 
-const getItems = async (req, res, next) => {
+const getItems = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const { id } = req.user as UserAttributes;
     const list = await List.findById(req.params.list, { include: [Item] });
-    if (list !== null && await list.hasUser(req.user.id)) {
+    if (list !== null && await list.hasUser(id)) {
       res.locals.list = list;
     }
   } catch (err) {
@@ -122,10 +127,11 @@ const getItems = async (req, res, next) => {
   next();
 };
 
-const getItem = async (req, res, next) => {
+const getItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const { id } = req.user as UserAttributes;
     const list = await List.findById(req.params.list);
-    if (await list.hasUser(req.user.id)) {
+    if (await list.hasUser(id)) {
       const item = await Item.findById(req.params.item);
       res.locals.item = item;
     }
@@ -136,7 +142,7 @@ const getItem = async (req, res, next) => {
   next();
 };
 
-const updateItem = async (req, res, next) => {
+const updateItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const item = await Item.findById(req.params.item);
     const itemUpdate = await item.update(req.body);
@@ -148,12 +154,12 @@ const updateItem = async (req, res, next) => {
 };
 
 // adding for integration test
-const deleteItem = async (req, res, next) => {
+const deleteItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const item = await Item.destroy({
       where: { id: req.params.item }
     });
-    req.local.item = item
+    res.locals.item = item
       ? { message: 'Record successfully deleted' }
       : { error: 'Cannot delete record' };
     next();
@@ -162,17 +168,19 @@ const deleteItem = async (req, res, next) => {
   }
 };
 
-const addUserToList = async (req, res, next) => {
+const addUserToList = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const { id } = req.user as UserAttributes;
     const list = await List.findById(req.params.list);
-    if (list !== null && await list.hasUser(req.user.id)) {
+    if (list !== null && await list.hasUser(id)) {
       req.body.email = req.body.email.toLowerCase();
       const addNewListUser = await User.findOrCreate({ where: { username: req.body.email } });
       if (addNewListUser[1] === true) {
         addNewListUser[0].update({ isRegistered: false });
       }
-      await list.addUser(addNewListUser[0].id);
-      const userList = await list.getUsers().map(user => ({ username: user.username }));
+      const { id } = addNewListUser[0] as unknown as UserAttributes;
+      await list.addUser(id);
+      const userList = await list.getUsers().map((user: { username: any; }) => ({ username: user.username }));
       res.locals.list = { users: userList };
     }
     next();
@@ -181,7 +189,7 @@ const addUserToList = async (req, res, next) => {
   }
 };
 
-module.exports = {
+export {
   addUserToList,
   createList,
   getAllLists,

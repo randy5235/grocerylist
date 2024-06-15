@@ -5,15 +5,16 @@ const logger = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
 const winston = require('winston');
-const router = require('./routes');
+import router from './routes';
 const { sessionSecret } = require('./config/dbConfig');
+import type { Request, Response, NextFunction } from 'express';
 // const RedisStore = require('connect-redis')(session);
 // const client = redis.createClient();
 // const redisOptions = { host: 'localhost', port: 6379, client: client,ttl :  260};
 // const { MemoryStore } = require('express-session');
 
 winston.stream = {
-  write: (message) => {
+  write: (message: string) => {
     winston.info(message);
   },
 };
@@ -28,7 +29,7 @@ app.options('/api/', cors());
 //   next();
 // });
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 
@@ -46,7 +47,7 @@ app.use((req, res, next) => {
 
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
   // Pass to next layer of middleware
   next();

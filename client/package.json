@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.6.3",
+    "@typescript-eslint/parser": "6",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "react": "^17.0.1",
@@ -41,5 +42,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-dom": "^18.3.0",
+    "redux-devtools-extension": "^2.13.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   }
 }

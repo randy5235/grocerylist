@@ -1,4 +1,4 @@
-const {
+import {
   addUserToList,
   createList,
   getList,
@@ -10,10 +10,11 @@ const {
   getAllLists,
   getItems,
   updateItem
-} = require('../controllers/listFunctions');
+} from '../controllers/listFunctions';
 
-const express = require('express');
-const hasValidSession = require('../lib/hasValidSession');
+import express from 'express';
+import hasValidSession from '../lib/hasValidSession';
+import type { Request, Response, NextFunction } from "express";
 
 const router = express.Router();
 
@@ -22,13 +23,13 @@ router
 
 router
   .route('/lists')
-  .get(getAllLists, (req, res) => {
+  .get(getAllLists, (req: Request, res: Response, next: NextFunction) => {
     res.json({ lists: res.locals.lists });
   });
 
 router
   .route('/list')
-  .post(createList, (req, res) => {
+  .post(createList, (req: Request, res: Response) => {
     res.json({
       listId: res.locals.list.id,
       title: res.locals.list.title,
@@ -38,44 +39,44 @@ router
 
 router
   .route('/list/:list')
-  .get(getList, (req, res) => {
+  .get(getList, async (req: Request, res: Response, next: NextFunction) => {
     res.json(res.locals.list);
   })
-  .patch(updateList, (req, res) => {
+  .patch(updateList, (req: Request, res: Response, next: NextFunction) => {
     res.json(res.locals.list);
   })
-  .delete(deleteList, (req, res) => {
+  .delete(deleteList, (req: Request, res: Response, next: NextFunction) => {
     res.json(res.locals.list);
   });
 
 router
   .route('/list/:list/items')
-  .get(getItems, (req, res) => {
+  .get(getItems, (req: Request, res: Response) => {
     res.json(res.locals.list ? { list: res.locals.list } : res.locals.error);
   });
 
 router
   .route('/list/:list/item')
-  .post(createItem, (req, res) => {
+  .post(createItem, (req: Request, res: Response) => {
     res.json(res.locals.item || res.locals.error);
   });
 
 router
   .route('/list/:list/item/:item')
-  .get(getItem, (req, res) => {
+  .get(getItem, (req: Request, res: Response) => {
     res.json(res.locals.item || res.locals.error);
   })
-  .patch(updateItem, (req, res) => {
+  .patch(updateItem, (req: Request, res: Response) => {
     res.json(res.locals.item || res.locals.error);
   })
-  .delete(deleteItem, (req, res) => {
-    res.json(res.local.item || req.error);
+  .delete(deleteItem, (req: Request, res: Response) => {
+    res.json(res?.locals?.item);
   });
 
 router
   .route('/list/:list/addUser')
-  .post(addUserToList, (req, res) => {
-    res.json(res.locals.list || req.error);
+  .post(addUserToList, (req: Request, res: Response) => {
+    res.json(res.locals.list);
   });
 
-module.exports = router;
+export default router;
