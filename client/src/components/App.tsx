@@ -8,7 +8,7 @@ const StoreContext = React.createContext({
   }
 });
 
-import axios from 'axios';
+// import axios from 'axios';
 // class App extends React.Component {
 //   state = {
 //     isLoggedIn: null,
