@@ -1,0 +1,13 @@
+{
+  "URL": "postgres://root:example@db:5432/grocery_list",
+  "user": {
+      "database": "test",
+      "password": "example"
+  },
+  "sessionSecret": {
+    "secret": "changeMeBeforeUse",
+    "resave": false,
+    "saveUninitialized": true,
+    "key": "SessionId"
+  }
+}

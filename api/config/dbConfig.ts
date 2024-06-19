@@ -1,4 +1,4 @@
-const config = require('./db.json');
+import config from './db.json';
 
 const dbConfig = {
   user: config.user, // env var: PGUSER
@@ -13,4 +13,4 @@ const dbConfig = {
 
 const sessionSecret = { ...config.sessionSecret };
 
-module.exports = { dbConfig, sessionSecret };
+export { dbConfig, sessionSecret };

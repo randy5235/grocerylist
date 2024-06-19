@@ -1,0 +1,224 @@
+FORMAT: 1A
+
+# GroceryList 
+
+The GroceryList API is a simple CRUD API to allow individuals to create and share lists with other users.
+
+## GroceryList API Root [/api]
+This is the base URI for all requests. All responses will return a JSON payload.
+
+
+## Group users
+
+Resources related to user creation and authentication
+
+## Register [/api/register]
+
+### Create a new user [POST]
+
+Create a new user in the system.
+
++ Request (application/json)
+
+    + Body
+
+            { "username" : "Test1", "password" : "password"}
+
++ Response 200 (application/json; charset=utf-8)
+
+        { "userId": 1, "username": "myusername" }
+            
+## Login [/api/login]
+
+### Login with an existing user [POST]
+
+Authenticates an existing user and creates a valid session token.
+
++ Request (application/json)
+
+    + Body
+
+            { "username" : "Test1", "password" : "password"}
+
++ Response 200 (application/json; charset=utf-8)
+
+        { "username": "OK" }
+
+## Logout [/api/logout]
+
+### Logout an existing user [POST]
+
+Logs an existing user out and invalidates their session credentials.
+
++ Request (application/json; charset=utf-8)
+
++ Response 200 (application/json; charset=utf-8)
+
+        { "message": "OK" }
+
+## Group lists
+
+Resources related to list creation and updates
+
+## lists [/api/lists]
+
+### Send back a collection of all lists that a user has access to [GET]
+
+Get a collection of lists for the current user.
+
++ Request (application/json)
+
+    + Headers
+
+            authorized: true
+
++ Response 200 (application/json; charset=utf-8)
+
+        { "lists": [] }
+
+## list [/api/list]
+
+### Create a new list [POST]
+
+Create a new list
+
++ Request (application/json)
+
+    + Headers
+
+            authorized: true
+
+    + Body
+
+            {"title":"Dredd Test", "description":"Dredd test description"}
+
++ Response 200 (application/json; charset=utf-8)
+
+        {"listId": "7", "title": "value", "description": "value"}
+
+## list/:list/addUser [/api/list/{list}/addUser]
+
+### Add a user by email to a specific list [POST]
+
+Adds a user by email address to a specific list, if the user doesn't exist, a thin user is created
+
++ Parameters
+
+    + list: `7` (number, required) - Id of list.
+
++ Request (application/json)
+
+    + Headers
+
+            authorized: true
+
+    + Body
+
+                { "email": "test@example.org" }
+
++ Response 200 (application/json; charset=utf-8)
+
+        { "users": [] }
+
+
+## list/:list [/api/list/{list}]
+
+### Send back a specific lists that a user has access to [GET]
+
+Retrieve a specific list.
+
++ Parameters
+
+    + list: `7` (number, required) - Id of list.
+
++ Request (application/json)
+
+    + Headers
+
+            authorized: true
+
++ Response 200 (application/json; charset=utf-8)
+
+        { "id": "7", "title": "value", "description": "value", "createdAt": "value", "updatedAt": "value" }
+
+### Delete a specific list that a user has access to [DELETE]
+
+Delete a specific list.
+
++ Parameters
+
+    + list: `7` (number, required) - Id of list.
+    
++ Response 200 (application/json; charset=utf-8)
+
+        { "id": "7", "message":"Record deleted succesfully", "deleted": true }    
+        
+## Group items
+
+Resources related to item creation and updates and deletion
+
+## items [/api/list/{list}/items]
+
+### Send back a collection of all items that a user has access to on a given list [GET]
+
+Get a collection of items for the current list.
+
++ Parameters
+
+    + list: `7` (number, required) - Id of list.
+
++ Request (application/json)
+
+    + Headers
+
+            authorized: true
+
++ Response 200 (application/json; charset=utf-8)
+
+        {"list":{"id":7,"title":"Test with user","description":"somestuff","createdAt":"2017-05-27T05:57:05.352Z","updatedAt":"2017-05-27T05:57:05.352Z","items":[]}}
+
+## item [/api/list/{list}/item]
+
+### Create a new item for a list [POST]
+
+Create a new item.
+
++ Parameters
+
+    + list: `7` (number, required) - Id of list.
+
++ Request (application/json)
+
+    + Headers
+
+            authorized: true
+
+    + Body
+
+            {"title":"Dredd Item", "description":"Dredd Item description"}
+
++ Response 200 (application/json; charset=utf-8)
+
+        {"id":5,"title":"Dredd Item","description":"Dredd Item description","isDone":false,"listId":71,"updatedAt":"2017-06-11T04:33:34.695Z","createdAt":"2017-06-11T04:33:34.695Z"}
+
+## list/:list/item/:item [/api/list/{list}/item/{item}]
+
+### Send back a specific item that a user has access to [GET]
+
+Retrieve a specific item.
+
++ Parameters
+
+    + list: `7` (number, required) - Id of list.
+
+    + item: `2` (number, required) - Id of item.
+
++ Request (application/json)
+
+    + Headers
+
+            authorized: true
+
++ Response 200 (application/json; charset=utf-8)
+
+        {"id":2,"title":"test","description":"test","isDone":false,"createdAt":"2017-06-07T05:49:58.715Z","updatedAt":"2017-06-07T05:49:58.715Z","listId":7}
