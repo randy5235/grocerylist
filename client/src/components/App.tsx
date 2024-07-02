@@ -3,7 +3,7 @@ import Header from './Header';
 const StoreContext = React.createContext({
   auth: {
     isSignedIn: false,
-    userName: '',
+    userName: 'test',
     userId: ''
   }
 });
@@ -56,3 +56,5 @@ function App() {
 }
 
 export default App;
+
+export { StoreContext };

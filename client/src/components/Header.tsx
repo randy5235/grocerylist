@@ -1,9 +1,11 @@
 import React from 'react';  
 // import { useContext } from 'react';
-// import Auth from './Auth';
+import Auth from './Auth';
+import { StoreContext } from './App'
 
 const Header = (props: any) => {
-  // const store = useContext(props.store);
+  // console.log(`props: `, props);
+  const store = React.useContext(StoreContext);
   return (
     <div className="ui secondary pointing menu">
       <div className="item">
@@ -13,7 +15,7 @@ const Header = (props: any) => {
       </div>
       <div className="right menu">
       
-          {/* <Auth store={store} /> */}
+          <Auth value={store} />
 
       </div>
     </div>
