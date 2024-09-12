@@ -1,0 +1,30 @@
+.center {
+  display: grid;
+  /* grid-template-rows: repeat(10fr); */
+  /* grid-template-columns: 2fr; */
+  grid-template-areas: 
+  'navigation'
+  'main';
+
+}
+.navigation {
+
+  grid-column: 1 / -1;
+  grid-area: navigation;
+  display: grid;
+  /* justify-content: center; */
+  grid-template-columns: 2fr, 1fr;
+  grid-template-areas:
+  'nav login';
+  
+}
+
+
+img {
+  height: 500px;
+  width: 500px;
+}
+
+h1 {
+  color: red;
+}

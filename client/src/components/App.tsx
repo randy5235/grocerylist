@@ -1,5 +1,8 @@
 import React from 'react';
 import Header from './Header';
+import NavigationPane from './NavigationPane';
+import LoginMenu from './LoginMenu';
+
 const StoreContext = React.createContext({
   auth: {
     isSignedIn: false,
@@ -48,12 +51,16 @@ function App() {
   return (
     <StoreContext.Provider value={store}>
        <div className="ui container">
-        <Header isLoggedIn={store.auth.isSignedIn} userName={store.auth.userName}/>
-         App
+        {/* <Header className="navigation" isLoggedIn={store.auth.isSignedIn} userName={store.auth.userName}/> */}
+        <div className='navigation'>
+          <NavigationPane />
+          <LoginMenu />
+      </div>
        </div>
     </StoreContext.Provider>
   );
 }
+
 
 export default App;
 

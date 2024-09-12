@@ -1,0 +1,21 @@
+.cursive {
+  grid-area: main;
+  font-family: cursive;
+  text-align: center;
+}
+
+.images {
+  text-align: center;
+  justify-content: center;
+}
+
+.cursive img {
+  grid-row: 3;
+  grid-column: 1 / -1;
+
+}
+
+h1 {
+  grid-row: 2;
+  color: green;
+}

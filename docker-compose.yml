@@ -1,7 +1,6 @@
-version: "3.9"
 services:
   api:
-    build: .
+    build: ./api
     ports: 
       - 5000:5000
   db:
@@ -17,3 +16,9 @@ services:
     restart: always
     ports:
       - 6379:6379
+  front-end:
+    build: ./client
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client:/usr/src/app

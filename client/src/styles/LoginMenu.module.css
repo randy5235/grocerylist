@@ -1,0 +1,9 @@
+.loginMenu {
+  
+  grid-area: login;
+  grid-column: 3;
+  color: red;
+  justify-self: right;
+  position: relative;
+  
+}

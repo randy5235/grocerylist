@@ -1,0 +1,11 @@
+.dropDown {
+  
+  background-color: lightgray;
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  z-index: 1;
+  margin-right: 10px;
+  border: 1px gray solid;
+  box-shadow: gray 5px 5px 5px;
+}

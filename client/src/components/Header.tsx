@@ -10,7 +10,7 @@ const Header = (props: any) => {
     <div className="ui secondary pointing menu">
       <div className="item">
         <h1>
-          Welcome to the GroceryList app!
+          Welcome to the GroceryList app!!
         </h1>
       </div>
       <div className="right menu">

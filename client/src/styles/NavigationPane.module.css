@@ -1,0 +1,24 @@
+.navPane {
+
+  font-family: cursive;
+}
+
+nav {
+  width: auto;
+
+  grid-area: nav;
+  grid-column: 1/span 3;
+  text-align: center;
+  float: left;
+
+}
+
+
+button { 
+
+  color: purple;
+
+  font-size: x-large;
+
+} 
+
