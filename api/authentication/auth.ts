@@ -4,7 +4,7 @@ import { findById, getUserByUsername } from '../controllers/userFunctions';
 const LocalStrategy = require('passport-local').Strategy;
 import passport from 'passport';
 import winston from 'winston';
-import { UserAttributes } from '../controllers/modelSchema';
+import { UserAttributes } from '../framework/models/UserSchema';
 
 const compare = async (reqPassword: string, userPassword: string) => {
   const isValid = await bcrypt.compare(reqPassword, userPassword);

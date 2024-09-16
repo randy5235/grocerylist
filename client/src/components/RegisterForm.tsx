@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext} from 'react';
 import * as styles from '../styles/RegisterForm.module.css';
+import { StoreContext, setAuth } from './App';
 
-export default function RegisterForm() {
+export default function RegisterForm(props) {
 
   interface ICredentials {
     username: string | undefined;
     password: string | undefined;
   }
 
+  const {open, setOpen} = props;
+  const {store, setStore} = useContext(StoreContext);
   const [username, setUsername] = useState<string|undefined>(undefined);
   const [password, setPassword] = useState<string|undefined>(undefined);
 
@@ -23,7 +26,6 @@ export default function RegisterForm() {
 
   const handleSubmit = async () => {
     try {
-
       const register = await fetch('http://0.0.0.0:5000/api/user/register', {
         method: 'POST',
         headers: {
@@ -31,6 +33,10 @@ export default function RegisterForm() {
         },
         body: JSON.stringify({username, password}),
       }).then(response => response.json());
+
+      let value = {auth:{isSignedIn: true, ...register}};
+      setStore(value);
+      setOpen(!open);
       
       console.log("username", username, password, register);
     } catch (error) {

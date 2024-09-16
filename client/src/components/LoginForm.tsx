@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { StoreContext } from './App';
 import * as styles from '../styles/LoginForm.module.css';
 
-export default function LoginForm() {
+
+export default function LoginForm(props) {
 
   interface ICredentials {
     username: string | undefined;
     password: string | undefined;
   }
-
+  const {open, setOpen} = props;
+  const {store, setStore} = useContext(StoreContext);
   const [username, setUsername] = useState<string|undefined>(undefined);
   const [password, setPassword] = useState<string|undefined>(undefined);
 
@@ -17,10 +20,24 @@ export default function LoginForm() {
     setValidated(!(username && password));
   }, [username, password])
 
-  const handleSubmit = () => {
-    // const username = document.querySelector('input[name="username"]')?.value
-    // const password = document.querySelector('input[name="password"]')?.value
-    console.log("username", username, password);
+  const handleSubmit = async () => {
+    try {
+      const login = await fetch('http://0.0.0.0:5000/api/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({username, password}),
+      }).then(response => response.json());
+
+      let value = {auth:{isSignedIn: true, ...login}};
+      setStore(value);
+      setOpen(!open);
+      
+      console.log("username", username, password, login);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
 

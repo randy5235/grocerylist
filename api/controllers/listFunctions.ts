@@ -1,5 +1,6 @@
 import Model from 'sequelize/types/model';
-import { List, Item, User, UserAttributes } from './modelSchema';
+import { List, Item, User } from '../framework/models/modelSchema';
+import type { UserAttributes } from '../framework/models/UserSchema';
 const winston = require('winston');
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
 

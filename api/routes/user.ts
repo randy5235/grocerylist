@@ -2,7 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import { userRegister } from '../controllers/userFunctions';
 import { validateRegistration } from '../lib/validation';
-import type { UserAttributes } from '../controllers/modelSchema';
+import type { UserAttributes } from '../framework/models/UserSchema';
 
 const router = express.Router();
 

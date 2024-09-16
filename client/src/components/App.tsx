@@ -1,16 +1,19 @@
-import React from 'react';
+import React, {useState, createContext} from 'react';
 import Header from './Header';
 import NavigationPane from './NavigationPane';
 import LoginMenu from './LoginMenu';
 
-const StoreContext = React.createContext({
+interface IStore {
   auth: {
-    isSignedIn: false,
-    userName: 'test',
-    userId: ''
+    isSignedIn: boolean,
+    userName: string,
+    userId: string
   }
-});
+}
+  // setStore: (state: any, store: any) => void
+// }
 
+const StoreContext = createContext<any | null>(null);
 // import axios from 'axios';
 // class App extends React.Component {
 //   state = {
@@ -37,19 +40,33 @@ const StoreContext = React.createContext({
 //   }
 // };
 
+export function setAuth(state: any, store: any) {
+  console.log("is this firing?")
+  store.auth.isSignedIn = true;
+  store.auth.userName = state.userName;
+  store.auth.userId = state.userId;
+  }
+
 function App() {
-  const [store, setStore]  = React.useState({
-    auth: {
-      isSignedIn: false,
+
+  const [store, setStore]: [store:any, setStore: any]  = useState({
+      auth: {
+        isSignedIn: false,
       userName: '',
-      userId: ''
-    }
+      userId: '',
+      },
+      setStore: (state: any, store: any) => {
+        console.log("are we getting here?")
+        setAuth(state, store);
+      }
   });
+
+   
   // const [isLoggedIn, setIsLoggedIn] = React.useState(false)
   // const [userName, setUserName] = React.useState('')
 
   return (
-    <StoreContext.Provider value={store}>
+    <StoreContext.Provider value={{store, setStore}}>
        <div className="ui container">
         {/* <Header className="navigation" isLoggedIn={store.auth.isSignedIn} userName={store.auth.userName}/> */}
         <div className='navigation'>
@@ -65,3 +82,4 @@ function App() {
 export default App;
 
 export { StoreContext };
+

@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
-import { User, UserAttributes } from './modelSchema';
+import type { UserAttributes } from '../framework/models/UserSchema';
+import { User } from '../framework/models/modelSchema';
 import type { Model } from 'sequelize';
 import winston from 'winston';
 
