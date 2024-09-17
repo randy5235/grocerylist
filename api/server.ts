@@ -1,6 +1,6 @@
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const express = require('express');
+import express from 'express';
 const logger = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
@@ -12,6 +12,14 @@ import type { Request, Response, NextFunction } from 'express';
 // const client = redis.createClient();
 // const redisOptions = { host: 'localhost', port: 6379, client: client,ttl :  260};
 // const { MemoryStore } = require('express-session');
+
+
+declare module 'express-session' {
+  interface SessionData {
+    username: string;
+    userId: string;
+  }
+}
 
 winston.stream = {
   write: (message: string) => {
@@ -29,35 +37,58 @@ app.options('/api/', cors());
 //   next();
 // });
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
-app.use((req: Request, res: Response, next: NextFunction) => {
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   // Website you wish to allow to connect
+//   res.setHeader('Access-Control-Allow-Origin', ':3000');
 
-  // Request methods you wish to allow
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, OPTIONS, PUT, PATCH, DELETE'
-  );
+//   // Request methods you wish to allow
+//   res.setHeader(
+//     'Access-Control-Allow-Methods',
+//     'GET, POST, OPTIONS, PUT, PATCH, DELETE'
+//   );
 
-  // Request headers you wish to allow
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-Requested-With,content-type'
-  );
+//   // Request headers you wish to allow
+//   res.setHeader(
+//     'Access-Control-Allow-Headers',
+//     'X-Requested-With,content-type'
+//   );
 
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
+//   // Set to true if you need the website to include cookies in the requests sent
+//   // to the API (e.g. in case you use sessions)
+//   res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-  // Pass to next layer of middleware
-  next();
+//   // Pass to next layer of middleware
+//   next();
+// });
+
+// app.use(cookieParser());
+
+// function CheckCookieSession(req: Request, res, next) {
+//   if (req.cookies) {
+//     console.log('req.cookies: ', req.cookies);
+//   }
+//   next();
+// }
+
+
+
+app.get('/api/auth',checkSessionId,  (req, res) => {
+  console.log('req: ', req.sessionID, req.session);
+  res.json({ message: 'auth route' });
 });
-
 app.use(session(sessionSecret));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json());
 app.use(logger('combined', { stream: winston.stream }));
-app.use('/api', router);
+app.use('/api', checkSessionId, router);
 app.listen(port);
 console.log(`Server listening on port ${port}`);
+
+
+function checkSessionId(req: Request, res: Response, next: NextFunction) {
+  if (req.sessionID) {
+    console.log('req.sessionID: ', req.sessionID);
+  }
+  next();
+}

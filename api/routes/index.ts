@@ -4,6 +4,7 @@ import { default as user } from './user';
 
 const router = Router();
 
+
 router.use('/user', user);
 router.use('/list', list);
 

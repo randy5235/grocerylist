@@ -3,6 +3,10 @@ services:
     build: ./api
     ports: 
       - 5000:5000
+      - 9229:9229
+    volumes:
+      - ./api:/usr/src/app
+    command: npm run dev
   db:
     image: postgres
     restart: always

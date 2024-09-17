@@ -50,7 +50,7 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
         user.getDataValue('password')
       );
       if (isPasswordValid) {
-        req.user = user;
+        req.user = JSON.stringify(user);
         next();
       }
     } else {
@@ -68,8 +68,8 @@ const getUserByUsername = async (username: string) => {
       where: {
         username: username.toLowerCase(),
         isRegistered: true
-      }
-    });
+      },
+       raw: true });
   } catch (err) {
     winston.log('error', err);
   }

@@ -8,6 +8,10 @@
     "secret": "changeMeBeforeUse",
     "resave": false,
     "saveUninitialized": true,
-    "key": "SessionId"
+    "key": "SessionId",
+    "cookie": {
+      "secure": false,
+      "maxAge": 3600000
+    }
   }
 }

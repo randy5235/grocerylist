@@ -2,6 +2,8 @@ import React, {useState, createContext} from 'react';
 import Header from './Header';
 import NavigationPane from './NavigationPane';
 import LoginMenu from './LoginMenu';
+import WelcomePage from './WelcomePage';
+import ListDashboard from './ListDashboard';
 
 interface IStore {
   auth: {
@@ -47,8 +49,21 @@ export function setAuth(state: any, store: any) {
   store.auth.userId = state.userId;
   }
 
+  const getAuth = async () => await fetch('http://0.0.0.0:5000/api/auth', {
+    method: 'GET',
+    credentials: 'include',
+  }).then(response => {
+    const result = response.json();
+    console.log('response: ', result);
+    return result;
+  });
+
 function App() {
 
+  const auth = getAuth();
+  if (auth) {
+    console.log('auth: ', auth);
+  }
   const [store, setStore]: [store:any, setStore: any]  = useState({
       auth: {
         isSignedIn: false,
@@ -73,6 +88,9 @@ function App() {
           <NavigationPane />
           <LoginMenu />
       </div>
+      {store?.auth.isSignedIn 
+        ? <ListDashboard />
+        : <WelcomePage /> }
        </div>
     </StoreContext.Provider>
   );
