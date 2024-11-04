@@ -22,8 +22,9 @@ export default function LoginForm(props) {
 
   const handleSubmit = async () => {
     try {
-      const login = await fetch('http://0.0.0.0:5000/api/user/login', {
+      const login = await fetch('http://localhost/api/user/login', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },

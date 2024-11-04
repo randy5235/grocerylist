@@ -1,9 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as styles from '../styles/ListDashboard.module.css';
+
+import { fetchLists } from '../actions';
 
 export default function ListDashboard() {
 
   const [lists, setLists] = useState([]);
+
+  useEffect( () => {
+     fetchLists().then((data) => { setLists(data); });
+  }, []);
 
   return (
     <div className={styles}>

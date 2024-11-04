@@ -10,8 +10,8 @@
     "saveUninitialized": true,
     "key": "SessionId",
     "cookie": {
-      "secure": false,
-      "maxAge": 3600000
+      "maxAge": 3600000,
+      "secure": false
     }
   }
 }

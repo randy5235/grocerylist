@@ -1,5 +1,5 @@
 const bodyParser = require('body-parser');
-const cors = require('cors');
+// const cors = require('cors');
 import express from 'express';
 const logger = require('morgan');
 const passport = require('passport');
@@ -31,35 +31,31 @@ require('./authentication/auth');
 
 const app = express();
 const port = process.env.PORT || 5000;
-app.options('/api/', cors());
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-//   next();
-// });
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
-// app.use((req: Request, res: Response, next: NextFunction) => {
+// app.options('/api/', cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", '*');
+  next();
+});
+// app.use(cors({ credentials: true, origin: '*'}));
+app.use((req: Request, res: Response, next: NextFunction) => {
 //   // Website you wish to allow to connect
-//   res.setHeader('Access-Control-Allow-Origin', ':3000');
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
 //   // Request methods you wish to allow
-//   res.setHeader(
-//     'Access-Control-Allow-Methods',
-//     'GET, POST, OPTIONS, PUT, PATCH, DELETE'
-//   );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, OPTIONS, PUT, PATCH, DELETE'
+  );
 
 //   // Request headers you wish to allow
-//   res.setHeader(
-//     'Access-Control-Allow-Headers',
-//     'X-Requested-With,content-type'
-//   );
 
 //   // Set to true if you need the website to include cookies in the requests sent
 //   // to the API (e.g. in case you use sessions)
-//   res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
 //   // Pass to next layer of middleware
-//   next();
-// });
+  next();
+});
 
 // app.use(cookieParser());
 
@@ -72,14 +68,17 @@ app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 
 
 
+app.use(passport.initialize());
+app.use(session(sessionSecret));
+app.use(passport.session());
+app.use(bodyParser.json());
+app.use('/api/health', (req, res) => {
+  res.json({ message: 'health check' });
+});
 app.get('/api/auth',checkSessionId,  (req, res) => {
   console.log('req: ', req.sessionID, req.session);
   res.json({ message: 'auth route' });
 });
-app.use(session(sessionSecret));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(bodyParser.json());
 app.use(logger('combined', { stream: winston.stream }));
 app.use('/api', checkSessionId, router);
 app.listen(port);
@@ -87,6 +86,7 @@ console.log(`Server listening on port ${port}`);
 
 
 function checkSessionId(req: Request, res: Response, next: NextFunction) {
+  // const auth = passport.authenticate('local', { session: true });
   if (req.sessionID) {
     console.log('req.sessionID: ', req.sessionID);
   }

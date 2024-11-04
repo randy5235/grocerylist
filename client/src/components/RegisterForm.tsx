@@ -26,7 +26,7 @@ export default function RegisterForm(props) {
 
   const handleSubmit = async () => {
     try {
-      const register = await fetch('http://0.0.0.0:5000/api/user/register', {
+      const register = await fetch('http://0.0.0.0/api/user/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

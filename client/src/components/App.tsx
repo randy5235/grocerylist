@@ -49,7 +49,7 @@ export function setAuth(state: any, store: any) {
   store.auth.userId = state.userId;
   }
 
-  const getAuth = async () => await fetch('http://0.0.0.0:5000/api/auth', {
+  const getAuth = async () => await fetch('http://localhost/api/auth', {
     method: 'GET',
     credentials: 'include',
   }).then(response => {

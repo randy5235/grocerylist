@@ -32,6 +32,7 @@ router
     console.log('req.user: ', (req?.user as UserAttributes)?.id , (req?.user as UserAttributes)?.username);
     (req.session as SessionData).userId = (req?.user as UserAttributes)?.id;
     const { id, username } = req?.user as UserAttributes;
+    console.log("sessions: ", req.session);
     res.json({ username, userId: id });
   });
 
