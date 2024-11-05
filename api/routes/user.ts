@@ -12,7 +12,7 @@ router
   .post(
     validateRegistration,
     userRegister,
-    passport.authenticate('local', {}),
+    passport.authenticate('local', {successRedirect: '/api/list/lists'}),
     (req, res) => {
       const { id, username } = req?.user as UserAttributes;
       (req.session as SessionData).username = username;
@@ -28,12 +28,16 @@ router
 router
   .route('/login')
   .post(passport.authenticate('local', {}), (req, res) => {
-    (req.session as SessionData).username = (req?.user as UserAttributes).username;
-    console.log('req.user: ', (req?.user as UserAttributes)?.id , (req?.user as UserAttributes)?.username);
-    (req.session as SessionData).userId = (req?.user as UserAttributes)?.id;
-    const { id, username } = req?.user as UserAttributes;
-    console.log("sessions: ", req.session);
-    res.json({ username, userId: id });
+    try {
+      (req.session as SessionData).username = (req?.user as UserAttributes).username;
+      console.log('req.user: ', (req?.user as UserAttributes)?.id , (req?.user as UserAttributes)?.username);
+      (req.session as SessionData).userId = (req?.user as UserAttributes)?.id;
+      const { id, username } = req?.user as UserAttributes;
+      console.log("sessions: ", req.session);
+      res.json({ username, userId: id });
+    } catch (err) {
+      res.status(500).json({ error: 'User not found' });
+    }
   });
 
 router.route('/logout').post((req, res) => {

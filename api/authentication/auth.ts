@@ -29,13 +29,13 @@ passport.use(
 );
 
 passport.serializeUser((user: any, cb: (arg0: null, arg1: any) => any) => {
-  cb(null, user.id);
+  cb(null, {id: user.id, username: user.username});
 });
 
 passport.deserializeUser((id: any, cb: (error: any | null, user?: any | undefined) => void) => {
   findById(id, (err: any, user: any) => {
     if (err) {
-      return cb(err);
+      cb(err);
     }
     cb(null, user);
   });

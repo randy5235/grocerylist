@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "build": "tsc -p .",
-    "dev": "nodemon --config nodemon.json ./server.ts",
+    "dev": "DEBUG=sequelize:sql* nodemon --config nodemon.json ./server.ts",
     "dredd": "npx dredd apiary.apib http://localhost:5000 --sorted",
     "lint": "eslint **/*.js",
     "test": "mocha test/*.js"

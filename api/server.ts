@@ -8,6 +8,7 @@ const winston = require('winston');
 import router from './routes';
 const { sessionSecret } = require('./config/dbConfig');
 import type { Request, Response, NextFunction } from 'express';
+import cookieParser from 'cookie-parser';
 // const RedisStore = require('connect-redis')(session);
 // const client = redis.createClient();
 // const redisOptions = { host: 'localhost', port: 6379, client: client,ttl :  260};
@@ -68,16 +69,19 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 
 
-app.use(passport.initialize());
 app.use(session(sessionSecret));
+app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json());
 app.use('/api/health', (req, res) => {
   res.json({ message: 'health check' });
 });
 app.get('/api/auth',checkSessionId,  (req, res) => {
-  console.log('req: ', req.sessionID, req.session);
-  res.json({ message: 'auth route' });
+  if (req.isAuthenticated()) {
+    res.send("ok")
+  }
+  res.send("not ok")
+// const { username, userId } = req.session;
 });
 app.use(logger('combined', { stream: winston.stream }));
 app.use('/api', checkSessionId, router);
@@ -86,6 +90,7 @@ console.log(`Server listening on port ${port}`);
 
 
 function checkSessionId(req: Request, res: Response, next: NextFunction) {
+  console.log('reg.cookies: ', req.cookies);
   // const auth = passport.authenticate('local', { session: true });
   if (req.sessionID) {
     console.log('req.sessionID: ', req.sessionID);

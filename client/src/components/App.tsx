@@ -60,21 +60,25 @@ export function setAuth(state: any, store: any) {
 
 function App() {
 
-  const auth = getAuth();
-  if (auth) {
-    console.log('auth: ', auth);
-  }
   const [store, setStore]: [store:any, setStore: any]  = useState({
-      auth: {
-        isSignedIn: false,
+    auth: {
+      isSignedIn: false,
       userName: '',
       userId: '',
-      },
-      setStore: (state: any, store: any) => {
-        console.log("are we getting here?")
-        setAuth(state, store);
-      }
+    },
+    setStore: (state: any, store: any) => {
+      console.log("are we getting here?")
+      setAuth(state, store);
+    }
   });
+
+  const auth = (() => getAuth()
+    .then(auth => {
+      console.log('auth: ', auth);
+      setAuth(auth, store)
+    })
+  )();
+
 
    
   // const [isLoggedIn, setIsLoggedIn] = React.useState(false)

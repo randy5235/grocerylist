@@ -76,13 +76,15 @@ const getUserByUsername = async (username: string) => {
   return user;
 };
 
-const findById = async (id: string, cb: any) => {
+const findById = async (user: any , cb: any) => {
+  const {id } = user;
   try {
-    const user = await User.findOne({
+    const user  =await  User.findOne({
       where: {
         id
       }
     });
+
     cb(null, user);
   } catch (err) {
     winston.error(err);

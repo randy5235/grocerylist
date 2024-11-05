@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import * as styles from '../styles/ListDashboard.module.css';
 
 import { fetchLists } from '../actions';
+import CreateListButton from './CreateListButton';
 
 export default function ListDashboard() {
 
@@ -15,6 +16,7 @@ export default function ListDashboard() {
     <div className={styles}>
       <h1> Dashboard </h1>
       <div className={styles.listContainer}>
+        <CreateListButton />
         <ul>
           {lists.length > 0 ?
           lists.map((list: any) => {
